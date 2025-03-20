@@ -20,9 +20,8 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 
 ### 4️⃣ Truy Cập Website  
 🔗 **http://127.0.0.1:8000**
+
 ### 5️⃣ Đăng Nhập Admin  
 - **Username:** `admin`  
 - **Email:** `admin@example.com`  
-- **Password:** `123`  
-```
-
+- **Password:** `123`
