@@ -4,7 +4,7 @@
 
 ### 1️⃣ Clone Repository  
 ```powershell
-git clone https://github.com/yourusername/yumspot.git
+git clone https://github.com/duyan77/yumspot.git
 cd yumspot
 ```
 
