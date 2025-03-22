@@ -15,7 +15,7 @@ Set-ExecutionPolicy Unrestricted -Scope Process
 
 ### 3️⃣ Chạy Script Thiết Lập
 ```powershell
-.\setup_django.ps1
+python .\setup_django.ps1
 ```
 
 ### 4️⃣ Truy Cập Website  
