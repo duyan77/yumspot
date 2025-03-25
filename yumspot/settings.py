@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 
 from pathlib import Path
 
+from django.template.defaultfilters import title
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
 	"unfold.contrib.import_export",  # optional, if django-import-export package is used
 	"unfold.contrib.guardian",  # optional, if django-guardian package is used
 	"unfold.contrib.simple_history",  # optional, if django-simple-history package is used
+	"modeltranslation",
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -46,6 +49,78 @@ INSTALLED_APPS = [
 	'django.contrib.staticfiles',
 	'store',
 ]
+
+# settings.py
+
+from django.templatetags.static import static
+from django.urls import reverse_lazy
+from django.utils.translation import gettext_lazy as _
+
+
+# Hàm kiểm tra quyền
+def permission_callback(request):
+	return request.user.has_perm("store.change_restaurant")  # Kiểm tra quyền trên model Restaurant
+
+
+UNFOLD = {
+	"SITE_HEADER": "Yumspot Admin",
+	"SITE_SUBHEADER": "Admin panel for Yumspot project",
+	# "SITE_SYMBOL": "restaurant",
+	"BORDER_RADIUS": "10px",
+	"SHOW_BACK_BUTTON": True,
+	"SHOW_VIEW_ON_SITE": True,  # show/hide "View on site" button, default: True
+	"DASHBOARD_CALLBACK": "store.admin.dashboard_callback",
+	"SIDEBAR": {
+		"show_search": True,  # Search in applications and models names
+		"show_all_applications": True,  # Dropdown with all applications and models
+		"navigation": [
+			{
+				"title": _("Navigation"),
+				"separator": True,  # Top border
+				"collapsible": True,  # Collapsible group of links
+				"items": [
+					{
+						"title": _("Dashboard"),
+						"icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
+						"link": reverse_lazy("admin:index"),
+						"permission": lambda request: request.user.is_superuser,
+					},
+					{
+						"title": _("Users"),
+						"icon": "people",
+						"link": reverse_lazy("admin:store_user_changelist"),
+					},
+					{
+						"title": _("Restaurants"),
+						"icon": "restaurant",
+						"link": reverse_lazy("admin:store_restaurant_changelist"),
+						"permission": permission_callback,
+					}
+				],
+			},
+		],
+	},
+
+	"TABS": [
+		{
+			"models": [
+				"store.restaurant",  # Ứng dụng: store, Model: Restaurant
+			],
+			"items": [
+				{
+					"title": _("All restaurants"),  # Tiêu đề hiển thị
+					"link": reverse_lazy("admin:store_restaurant_changelist"),
+					# Đường dẫn đến danh sách Restaurant trong Admin
+				},
+				{
+					"title": _("Add restaurant"),
+					"link": reverse_lazy("admin:store_restaurant_add"),
+					"permission": permission_callback,
+				}
+			],
+		},
+	],
+}
 
 MIDDLEWARE = [
 	'django.middleware.security.SecurityMiddleware',
@@ -62,7 +137,7 @@ ROOT_URLCONF = 'yumspot.urls'
 TEMPLATES = [
 	{
 		'BACKEND': 'django.template.backends.django.DjangoTemplates',
-		'DIRS': [BASE_DIR / 'templates']
+		'DIRS': [BASE_DIR / 'store' / 'templates']
 		,
 		'APP_DIRS': True,
 		'OPTIONS': {

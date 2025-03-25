@@ -1,3 +1,10 @@
-from django.shortcuts import render
+from store.models import Restaurant, User  # Import model của bạn
 
-# Create your views here.
+
+def dashboard_callback(request, context):
+    context.update({
+        "user_count": User.objects.count(),
+        "restaurant_count": Restaurant.objects.count(),
+    })
+    return context
+

@@ -9,13 +9,20 @@ class User(AbstractUser):
 	def __str__(self):
 		return self.username
 
+	class Meta:
+		verbose_name = 'User'
+		verbose_name_plural = 'Users'
+
 
 class Restaurant(models.Model):
 	name = models.CharField(max_length=255)
 	description = models.TextField()
 	location = models.CharField(max_length=255)
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True})
 	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return self.name
 
 
 class Follow(models.Model):
