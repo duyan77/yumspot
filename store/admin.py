@@ -43,7 +43,7 @@ class GroupAdmin(ModelAdmin):
 
 @admin.register(Restaurant)
 class RestaurantAdmin(ModelAdmin):
-	list_display = ("name", "location", "user")
+	list_display = ("name", "location", "user", "description")
 	list_editable = ("location", "user")
 	list_filter = ("name", "location", "user")
 	search_fields = ("name", "location")
@@ -73,30 +73,33 @@ class DashboardAdmin(ModelAdmin):
 
 
 def dashboard_callback(request, context):
-	# Lấy 7 ngày gần nhất (theo thứ tự từ cũ đến mới)
-	num_days = 7
-	today = now().date()
-	date_labels = [(today - timedelta(days=i)).strftime("%d/%m/%Y") for i in
-				   reversed(range(num_days))]
+	"""
+    Callback to prepare custom variables for index template which is used as dashboard
+    template. It can be overridden in application by creating custom admin/index.html.
+    """
+	days_range = 15
+	labels = []
+	user_counts = []
+	restaurant_counts = []
 
-	# Đếm tổng số lượng User tính đến mỗi ngày
-	user_counts = [
-		User.objects.filter(date_joined__date__lte=(today - timedelta(days=i))).count()
-		for i in reversed(range(num_days))
-	]
+	for i in range(days_range):
+		day = now() - timedelta(days=days_range - i - 1)
+		labels.append(day.strftime("%Y-%m-%d"))
 
-	# Đếm tổng số lượng Restaurants tính đến mỗi ngày
-	restaurant_counts = [
-		Restaurant.objects.filter(created_at__date__lte=(today - timedelta(days=i))).count()
-		for i in reversed(range(num_days))
-	]
+		# Tính tổng số lượng users và restaurants tính đến ngày hôm đó
+		user_per_day = User.objects.filter(date_joined__lte=day.date()).count()
+		restaurant_per_day = Restaurant.objects.filter(created_at__lte=day.date()).count()
 
-	# Dữ liệu biểu đồ tổng User
+		user_counts.append(user_per_day)
+		restaurant_counts.append(restaurant_per_day)
+
+	# Dữ liệu biểu đồ
+
 	user_chart_data = {
-		"labels": date_labels,
-		"datasets": [
+		'labels': labels,
+		'datasets': [
 			{
-				"label": "Total Users",
+				"label": "Users",
 				"data": user_counts,
 				"borderColor": "#3B82F6",
 				"backgroundColor": "rgba(59, 130, 246, 0.2)",
@@ -105,18 +108,17 @@ def dashboard_callback(request, context):
 		],
 	}
 
-	# Dữ liệu biểu đồ tổng Restaurants
 	restaurant_chart_data = {
-		"labels": date_labels,
-		"datasets": [
+		'labels': labels,
+		'datasets': [
 			{
-				"label": "Total Restaurants",
+				"label": "Restaurants",
 				"data": restaurant_counts,
 				"borderColor": "#F97316",
 				"backgroundColor": "rgba(249, 115, 22, 0.2)",
 				"fill": True,
 			}
-		],
+		]
 	}
 
 	# Send data to dashboard
@@ -144,13 +146,13 @@ def dashboard_callback(request, context):
 					 }
 				],
 				'labels': [
-					'18/11/2024',
-					'19/11/2024',
-					'20/11/2024',
-					'21/11/2024',
-					'22/11/2024',
-					'23/11/2024',
-					'24/11/2024'
+					'2024-11-18',
+					'2024-11-19',
+					'2024-11-20',
+					'2024-11-21',
+					'2024-11-22',
+					'2024-11-23',
+					'2024-11-24'
 				]
 			}),
 
@@ -161,13 +163,13 @@ def dashboard_callback(request, context):
 					 }
 				],
 				'labels': [
-					'18/11/2024',
-					'19/11/2024',
-					'20/11/2024',
-					'21/11/2024',
-					'22/11/2024',
-					'23/11/2024',
-					'24/11/2024',
+					'2024-11-18',
+					'2024-11-19',
+					'2024-11-20',
+					'2024-11-21',
+					'2024-11-22',
+					'2024-11-23',
+					'2024-11-24'
 				]
 			}),
 

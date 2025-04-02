@@ -3,8 +3,11 @@ from django.db import models
 
 
 class User(AbstractUser):
+	username = models.CharField(verbose_name="Tên Đăng Nhập", max_length=150, unique=True)
 	email = models.EmailField(unique=True)
 	created_at = models.DateTimeField(auto_now_add=True)
+	is_staff = models.BooleanField(verbose_name="Nhân Viên")
+	is_superuser = models.BooleanField(verbose_name="Quản Trị Viên")
 
 	def __str__(self):
 		return self.username
@@ -15,10 +18,11 @@ class User(AbstractUser):
 
 
 class Restaurant(models.Model):
-	name = models.CharField(max_length=255)
-	description = models.TextField()
-	location = models.CharField(max_length=255)
-	user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True})
+	name = models.CharField(max_length=255, verbose_name="Tên Nhà Hàng")
+	description = models.TextField(verbose_name="Mô Tả")
+	location = models.CharField(max_length=255, verbose_name="Địa Chỉ")
+	user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True},
+							 verbose_name="Người quản lí")
 	created_at = models.DateTimeField(auto_now_add=True)
 
 	def __str__(self):

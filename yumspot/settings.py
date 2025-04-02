@@ -80,18 +80,18 @@ UNFOLD = {
 				"collapsible": True,  # Collapsible group of links
 				"items": [
 					{
-						"title": _("Dashboard"),
+						"title": _("Thống kê"),
 						"icon": "dashboard",  # Supported icon set: https://fonts.google.com/icons
 						"link": reverse_lazy("admin:index"),
 						"permission": lambda request: request.user.is_superuser,
 					},
 					{
-						"title": _("Users"),
+						"title": _("Người dùng"),
 						"icon": "people",
 						"link": reverse_lazy("admin:store_user_changelist"),
 					},
 					{
-						"title": _("Restaurants"),
+						"title": _("Nhà hàng"),
 						"icon": "restaurant",
 						"link": reverse_lazy("admin:store_restaurant_changelist"),
 						"permission": permission_callback,
@@ -108,12 +108,12 @@ UNFOLD = {
 			],
 			"items": [
 				{
-					"title": _("All restaurants"),  # Tiêu đề hiển thị
+					"title": _("Tất cả nhà hàng"),  # Tiêu đề hiển thị
 					"link": reverse_lazy("admin:store_restaurant_changelist"),
 					# Đường dẫn đến danh sách Restaurant trong Admin
 				},
 				{
-					"title": _("Add restaurant"),
+					"title": _("Thêm nhà hàng"),
 					"link": reverse_lazy("admin:store_restaurant_add"),
 					"permission": permission_callback,
 				}
