@@ -5,7 +5,7 @@
 {% block breadcrumbs %}{% endblock %}
 
 {% block title %}
-    Dashboard
+    Bảng thống kê
 {% endblock %}
 
 {% block content %}
@@ -106,5 +106,14 @@
             {% endcomponent %}
 
         {% endcomponent %}
+
+        {% component "unfold/components/card.html" %}
+            {% component "unfold/components/table.html" with table=stats_data card_included=1 striped=1 %}{% endcomponent %}
+        {% endcomponent %}
+
+
+        {{ custom_variable }}
     {% endcomponent %}
+
+
 {% endblock %}

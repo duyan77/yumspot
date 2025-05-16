@@ -1,0 +1,27 @@
+{% extends 'unfold/layouts/base.html' %}
+
+{% load i18n unfold %}
+
+{% block breadcrumbs %}{% endblock %}
+
+{% block title %}
+    Dashboard custom
+{% endblock %}
+
+{% block content %}
+    {% component "unfold/components/container.html" %}
+
+        {% component "unfold/components/card.html" %}
+            {% component "unfold/components/table.html" with table=stats_data card_included=1 striped=1 %}{% endcomponent %}
+        {% endcomponent %}
+
+    {% endcomponent %}
+
+    {% component "unfold/components/container.html" %}
+        {% component "unfold/components/chart/cohort.html" with data=cohorts %}{% endcomponent %}
+    {% endcomponent %}
+
+    {% component "unfold/components/tracker.html" with data=trackers %}
+    {% endcomponent %}
+
+{% endblock %}

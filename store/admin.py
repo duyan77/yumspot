@@ -3,28 +3,105 @@ import json
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from django.template.response import TemplateResponse
 from django.urls import path
-from django.utils.timezone import now, timedelta
-from django.views.generic import TemplateView
+from django.utils.timezone import now, timedelta, localtime
 from unfold.admin import ModelAdmin
-from unfold.forms import AdminPasswordChangeForm, UserChangeForm, UserCreationForm
-from unfold.views import UnfoldModelAdminViewMixin
+from unfold.forms import AdminPasswordChangeForm, UserCreationForm, UserChangeForm
+from unfold.sites import UnfoldAdminSite
+from multi_captcha_admin.admin import MultiCaptchaAdminAuthenticationForm
 
-from .models import User, Restaurant
+
+from store import dao
+from .models import User, Restaurant, Food
 
 admin.site.unregister(Group)
 
 
-@admin.register(User)
+class CustomAdminSite(UnfoldAdminSite):
+	index_title = "Quản lý hệ thống Yumspot"
+	site_title = "Quản lý hệ thống"
+	login_form = MultiCaptchaAdminAuthenticationForm
+	login_template = 'admin/login.html'
+
+	def get_urls(self):
+		return [
+			path('stats/', self.admin_view(self.stats_view), name='stats'),
+		] + super().get_urls()
+
+	def stats_view(self, request):
+		stats = dao.count_restaurants_per_owner()
+		return TemplateResponse(request, 'admin/stats.html', {
+			"stats_data": {
+				"headers": ['Người dùng', 'Số nhà hàng'],
+				"rows": [[stat['username'], stat['count']] for stat in stats],
+			},
+
+			"cohorts": {
+				"headers": [
+					{
+						"title": "Số nhà hàng",
+						"subtitle": "Mỗi người dùng sở hữu",
+					},
+				],
+				"rows": [
+					{
+						"header": {
+							"title": stat["username"],
+							"subtitle": f"ID: {stat['user_id']}" if "user_id" in stat else "",
+						},
+						"cols": [
+							{
+								"value": str(stat["count"]),
+								"subtitle": "nhà hàng",
+							}
+						]
+					}
+					for stat in stats
+				]
+			},
+
+			"trackers": [
+				{
+					"color": "bg-primary-400 dark:bg-primary-700",
+					"tooltip": "Custom value 1",
+				},
+				{
+					"color": "bg-primary-400 dark:bg-primary-700",
+					"tooltip": "Custom value 2",
+				}
+			]
+		})
+
+
+custom_admin_site = CustomAdminSite(name="custom_admin_site")
+
+
+@admin.register(User, site=custom_admin_site)
 class UserAdmin(BaseUserAdmin, ModelAdmin):
-	list_display = ("username", "email", "is_staff", "is_superuser")
-	list_filter = BaseUserAdmin.list_filter + ("username",)
-	list_editable = BaseUserAdmin.list_editable + ("is_staff", "is_superuser", "email")
+	list_display = ("username", "email", "role", "is_active")
+	list_filter = BaseUserAdmin.list_filter + ("username", "role", "is_active")
+	list_editable = getattr(BaseUserAdmin, "list_editable", ()) + ("role", "is_active")
 	form = UserChangeForm
 	add_form = UserCreationForm
 	change_password_form = AdminPasswordChangeForm
 	compressed_fields = True
 	warn_unsaved_form = True
+	change_form_show_cancel_button = True
+	list_filter_sheet = True
+
+	add_fieldsets = (
+		(None, {
+			"classes": ("wide",),
+			"fields": ("username", "email", "role", "password1", "password2"),
+		}),
+	)
+
+	fieldsets = BaseUserAdmin.fieldsets + (
+		('Role Information', {
+			'fields': ('role',),  # Thêm trường 'role' vào một fieldset riêng
+		}),
+	)
 
 	def has_add_permission(self, request):
 		return request.user.is_superuser
@@ -36,12 +113,12 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
 		return request.user.is_superuser
 
 
-@admin.register(Group)
+@admin.register(Group, site=custom_admin_site)
 class GroupAdmin(ModelAdmin):
 	pass
 
 
-@admin.register(Restaurant)
+@admin.register(Restaurant, site=custom_admin_site)
 class RestaurantAdmin(ModelAdmin):
 	list_display = ("name", "location", "user", "description")
 	list_editable = ("location", "user")
@@ -49,27 +126,20 @@ class RestaurantAdmin(ModelAdmin):
 	search_fields = ("name", "location")
 	compressed_fields = True
 	warn_unsaved_form = True
+	change_form_show_cancel_button = True
+	list_filter_sheet = True
 
 
-# Custom dasboard view
-admin.site.index_title = 'Dashboard'
-
-
-class DashboardView(UnfoldModelAdminViewMixin, TemplateView):
-	title = "Dashboard"
-	permission_required = ()
-	template_name = "admin/index.html"
-
-
-class DashboardAdmin(ModelAdmin):
-	def get_urls(self):
-		return super().get_urls() + [
-			path(
-				"index",
-				DashboardView.as_view(model_admin=self),
-				name="index"
-			),
-		]
+@admin.register(Food, site=custom_admin_site)
+class FoodAdmin(ModelAdmin):
+	list_display = ("id", "name", "price", "category",)
+	list_editable = ("name", "price", "category")
+	list_filter = ("name", "price", "category")
+	search_fields = ("name", "price")
+	compressed_fields = True
+	warn_unsaved_form = True
+	change_form_show_cancel_button = True
+	list_filter_sheet = True
 
 
 def dashboard_callback(request, context):
@@ -83,18 +153,21 @@ def dashboard_callback(request, context):
 	restaurant_counts = []
 
 	for i in range(days_range):
-		day = now() - timedelta(days=days_range - i - 1)
-		labels.append(day.strftime("%Y-%m-%d"))
+		# Lấy ngày hiện tại với múi giờ chính xác
+		day = localtime(now()) - timedelta(days=days_range - i - 1)
+		labels.append(day.strftime("%d-%m-%Y"))
 
-		# Tính tổng số lượng users và restaurants tính đến ngày hôm đó
-		user_per_day = User.objects.filter(date_joined__lte=day.date()).count()
-		restaurant_per_day = Restaurant.objects.filter(created_at__lte=day.date()).count()
+		# Tính tổng số lượng người dùng đã đăng ký đến ngày hôm đó
+		user_per_day = User.objects.filter(date_joined__lte=day).count()
 
+		# Tính tổng số lượng nhà hàng đã tạo đến ngày hôm đó
+		restaurant_per_day = Restaurant.objects.filter(created_at__lte=day).count()
+
+		# Thêm vào danh sách
 		user_counts.append(user_per_day)
 		restaurant_counts.append(restaurant_per_day)
 
 	# Dữ liệu biểu đồ
-
 	user_chart_data = {
 		'labels': labels,
 		'datasets': [
@@ -121,6 +194,8 @@ def dashboard_callback(request, context):
 		]
 	}
 
+	stats = dao.count_restaurants_per_owner()
+
 	# Send data to dashboard
 	context.update(
 		{
@@ -138,6 +213,11 @@ def dashboard_callback(request, context):
 					"metric": 18,
 				},
 			],
+
+			"stats_data": {
+				"headers": ['Người dùng', 'Số nhà hàng'],
+				"rows": [[stat['username'], stat['count']] for stat in stats],
+			},
 
 			"dauChartData": json.dumps({
 				'datasets': [

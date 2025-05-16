@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-(@wlm+n_tu2#gkg8vn+@q0x-w#-rq#c9ss0fgdwijqj#5oe+*m
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -41,6 +41,8 @@ INSTALLED_APPS = [
 	"unfold.contrib.guardian",  # optional, if django-guardian package is used
 	"unfold.contrib.simple_history",  # optional, if django-simple-history package is used
 	"modeltranslation",
+	'captcha',
+	'multi_captcha_admin',
 	'django.contrib.admin',
 	'django.contrib.auth',
 	'django.contrib.contenttypes',
@@ -48,7 +50,25 @@ INSTALLED_APPS = [
 	'django.contrib.messages',
 	'django.contrib.staticfiles',
 	'store',
+	'cloudinary',
+	'cloudinary_storage',
+	'rest_framework',
+	'drf_yasg',
+	'oauth2_provider',
 ]
+
+# Cloudinary settings
+import cloudinary
+
+# Configuration
+cloudinary.config(
+	cloud_name="dmlyjq2ed",
+	api_key="183719924986798",
+	api_secret="S8g188ncjHMvhIs8Shgr8N82zTQ",  # Click 'View API Keys' above to copy your API secret
+	secure=True
+)
+
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 
 # settings.py
 
@@ -64,8 +84,8 @@ def permission_callback(request):
 
 UNFOLD = {
 	"SITE_HEADER": "Yumspot Admin",
-	"SITE_SUBHEADER": "Admin panel for Yumspot project",
-	# "SITE_SYMBOL": "restaurant",
+	"SITE_SUBHEADER": "Bảng điều khiển Yumspot",
+	"SITE_SYMBOL": "sprint",
 	"BORDER_RADIUS": "10px",
 	"SHOW_BACK_BUTTON": True,
 	"SHOW_VIEW_ON_SITE": True,  # show/hide "View on site" button, default: True
@@ -95,6 +115,11 @@ UNFOLD = {
 						"icon": "restaurant",
 						"link": reverse_lazy("admin:store_restaurant_changelist"),
 						"permission": permission_callback,
+					},
+					{
+						"title": _("Thực phẩm"),
+						"icon": "food_bank",
+						"link": reverse_lazy("admin:store_food_changelist"),
 					}
 				],
 			},
@@ -215,3 +240,16 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+REST_FRAMEWORK = {
+	'DEFAULT_AUTHENTICATION_CLASSES': (
+		'oauth2_provider.contrib.rest_framework.OAuth2Authentication',
+	)
+}
+
+CSRF_TRUSTED_ORIGINS = [
+	"https://0d62-14-169-73-56.ngrok-free.app",
+]
+
+# 'CLIENT_ID': jyt7S9M6k8NssDHoNQNyLgbeFJfi5qnKElHMeJxp
+# 'CLIENT_SECRET': RT007jDkJEvDOMeWisC7Q03mTKe5YZIIe8BNfSVj9HyPoLaixMirYDPJ4VTl3bKlenZygkesFO8CDBIicRjLW2UHrLy6MANgjrZ3iRxJSNTMvq2rpzWvIFfnLwOj6CVk

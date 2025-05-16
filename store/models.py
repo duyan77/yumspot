@@ -1,94 +1,132 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from cloudinary.models import CloudinaryField
 
 
 class User(AbstractUser):
+	ROLE_CHOICES = [
+		('admin', 'Admin'),
+		('customer', 'Customer'),
+		('restaurant', 'Restaurant Owner'),
+	]
 	username = models.CharField(verbose_name="Tên Đăng Nhập", max_length=150, unique=True)
+	role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='customer',
+							verbose_name='Vai trò')
 	email = models.EmailField(unique=True)
 	created_at = models.DateTimeField(auto_now_add=True)
-	is_staff = models.BooleanField(verbose_name="Nhân Viên")
-	is_superuser = models.BooleanField(verbose_name="Quản Trị Viên")
+	avatar = CloudinaryField('avatar', null=True, blank=True)
 
 	def __str__(self):
 		return self.username
+
+	def save(self, *args, **kwargs):
+		"""Nếu role là restaurant và user đang được tạo, thì đặt chưa kích hoạt."""
+		is_new = self.pk is None  # pk sẽ là None nếu user chưa được lưu lần nào
+		if is_new and self.role == 'restaurant':
+			self.is_active = False
+		super().save(*args, **kwargs)
+
+	def __str__(self):
+		return f"{self.username} ({self.role})"
 
 	class Meta:
 		verbose_name = 'User'
 		verbose_name_plural = 'Users'
 
 
-class Restaurant(models.Model):
+class BaseModel(models.Model):
+	created_at = models.DateTimeField(auto_now_add=True)
+	updated_at = models.DateTimeField(auto_now=True)
+	active = models.BooleanField(default=True)
+
+	class Meta:
+		abstract = True
+
+
+class Restaurant(BaseModel):
 	name = models.CharField(max_length=255, verbose_name="Tên Nhà Hàng")
 	description = models.TextField(verbose_name="Mô Tả")
 	location = models.CharField(max_length=255, verbose_name="Địa Chỉ")
-	user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={'is_staff': True},
-							 verbose_name="Người quản lí")
-	created_at = models.DateTimeField(auto_now_add=True)
+	user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={
+		'is_active': True,
+		'role': 'restaurant'
+	}, verbose_name="Chủ Nhà Hàng")
+	image = models.ImageField(null=True, blank=True, verbose_name="Hình Ảnh")
 
 	def __str__(self):
 		return self.name
 
 
-class Follow(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now_add=True)
-
-
-class Review(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-	rating = models.IntegerField()
-	comment = models.TextField()
-	created_at = models.DateTimeField(auto_now_add=True)
-
-
-class Like(models.Model):
-	user = models.ForeignKey(User, on_delete=models.CASCADE)
-	review = models.ForeignKey(Review, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now_add=True)
-
-
-class Category(models.Model):
+class Category(BaseModel):
 	name = models.CharField(max_length=255)
-	created_at = models.DateTimeField(auto_now_add=True)
+	icon = models.ImageField(null=True, blank=True)
+
+	def __str__(self):
+		return self.name
 
 
-class Menu(models.Model):
+class Menu(BaseModel):
 	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return f"{self.restaurant.name} - {self.category.name}"
 
 
-class Food(models.Model):
+class Food(BaseModel):
 	name = models.CharField(max_length=255)
 	price = models.DecimalField(max_digits=10, decimal_places=2)
 	menu = models.ForeignKey(Menu, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now_add=True)
+	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
+	discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
+	image = models.ImageField(null=True, blank=True)
+
+	def __str__(self):
+		return self.name
 
 
-class Order(models.Model):
+class Follow(BaseModel):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 	created_at = models.DateTimeField(auto_now_add=True)
 
 
-class OrderDetails(models.Model):
+class Review(BaseModel):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True, blank=True)
+	food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True, blank=True)
+	rating = models.IntegerField()
+	comment = models.TextField()
+
+
+class Like(BaseModel):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	review = models.ForeignKey(Review, on_delete=models.CASCADE)
+
+
+# image = CloudinaryField('image')
+
+
+class Order(BaseModel):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+
+class OrderDetails(BaseModel):
 	order = models.ForeignKey(Order, on_delete=models.CASCADE)
 	food = models.ForeignKey(Food, on_delete=models.CASCADE)
 	quantity = models.IntegerField()
-	created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Payment(models.Model):
+class Payment(BaseModel):
 	order = models.ForeignKey(Order, on_delete=models.CASCADE)
 	amount = models.DecimalField(max_digits=10, decimal_places=2)
 	status = models.CharField(max_length=50)
-	created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Delivery(models.Model):
+class Delivery(BaseModel):
 	order = models.ForeignKey(Order, on_delete=models.CASCADE)
 	status = models.CharField(max_length=50)
 	delivery_date = models.DateTimeField()
-	created_at = models.DateTimeField(auto_now_add=True)
+
+# đánh giá res, food

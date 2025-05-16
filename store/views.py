@@ -1,10 +1,143 @@
-from store.models import Restaurant, User  # Import model của bạn
+import json
+
+from django.http import JsonResponse
+from oauth2_provider.models import AccessToken
+from oauth2_provider.views import TokenView
+from rest_framework import status
+from rest_framework import viewsets, generics, parsers, permissions
+from rest_framework.decorators import action
+from rest_framework.response import Response
+
+from store import serializers, paginators
+from .models import Restaurant, User, Category, Food
 
 
-def dashboard_callback(request, context):
-    context.update({
-        "user_count": User.objects.count(),
-        "restaurant_count": Restaurant.objects.count(),
-    })
-    return context
+class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView):
+	queryset = Restaurant.objects.filter(
+		active=True).all()
+	serializer_class = serializers.RestaurantSerializer
+	pagination_class = paginators.RestaurantPaginator
 
+	def get_queryset(self):
+		# Lấy tất cả các nhà hàng đang hoạt động
+		queryset = self.queryset
+
+		# Lọc theo tên nhà hàng nếu có
+		name = self.request.query_params.get("q")
+		if name:
+			queryset = queryset.filter(name__icontains=name)
+
+		return queryset
+
+	@action(methods=['get'], url_path="foods", detail=True)
+	def get_foods(self, request, pk):
+		# queryset = self.get_queryset()
+
+		# Lấy nhà hàng theo pk
+		restaurant = self.get_object()
+
+		# Lấy tất cả các món ăn của nhà hàng
+		foods = Food.objects.filter(menu__restaurant=restaurant, active=True)
+
+		# Phân trang kết quả
+		page = self.paginate_queryset(foods)
+		if page is not None:
+			serializer = serializers.FoodSerializer(page, many=True)
+			return self.get_paginated_response(serializer.data)
+
+		# Nếu không có phân trang, trả về tất cả kết quả
+		serializer = serializers.FoodSerializer(foods, many=True)
+		return Response(serializer.data)
+
+
+class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
+	queryset = User.objects.filter(is_active=True).all()
+	serializer_class = serializers.UserSerializer
+	parser_classes = [parsers.MultiPartParser]
+
+	def get_permissions(self):
+		if self.action == "list" or self.action == "current_user":
+			return [permissions.IsAuthenticated()]
+		return [permissions.AllowAny()]
+
+	@action(methods=['get'], url_path="current-user", detail=False)
+	def current_user(self, request):
+		return Response(serializers.UserSerializer(request.user).data, status=status.HTTP_200_OK)
+
+
+class CustomTokenView(TokenView):
+	def post(self, request, *args, **kwargs):
+		response = super().post(request, *args, **kwargs)
+
+		if response.status_code == 200:
+			# Parse JSON từ response content
+			data = json.loads(response.content)
+
+			access_token = data.get("access_token")
+			token = AccessToken.objects.get(token=access_token)
+
+			user = token.user
+			data["username"] = user.username
+			data["email"] = user.email
+
+			return JsonResponse(data)
+
+		return response
+
+
+class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
+	queryset = Category.objects.filter(active=True)
+	serializer_class = serializers.CategorySerializer
+
+
+class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
+	queryset = Food.objects.filter(active=True)
+	serializer_class = serializers.FoodSerializer
+	pagination_class = paginators.FoodPaginator
+
+	def get_queryset(self):
+		# Lấy tất cả các món ăn đang hoạt động
+		queryset = self.queryset
+
+		# Lọc theo tên món ăn nếu có
+		name = self.request.query_params.get("q")
+		if name:
+			queryset = queryset.filter(name__icontains=name)
+
+		return queryset
+
+	@action(methods=['get'], url_path="discounted", detail=False)
+	def get_discounted_food(self, request):
+		# Lấy queryset đã lọc từ get_queryset
+		queryset = self.get_queryset()
+
+		# Lọc các món có discount > 0
+		discounted_foods = queryset.filter(discount__gt=0)  # gt: greater than
+
+		# Phân trang kết quả
+		page = self.paginate_queryset(discounted_foods)
+		if page is not None:
+			serializer = self.get_serializer(page, many=True)
+			return self.get_paginated_response(serializer.data)
+
+		# Nếu không có phân trang, trả về tất cả kết quả
+		serializer = self.get_serializer(discounted_foods, many=True)
+		return Response(serializer.data)
+
+	@action(methods=['get'], url_path="comments", detail=True)
+	def get_comments(self, request, pk):
+		# Lấy món ăn theo pk
+		food = self.get_object()
+
+		# Lấy tất cả các bình luận của món ăn
+		reviews = food.review_set.all()
+
+		# Phân trang kết quả
+		page = self.paginate_queryset(reviews)
+		if page is not None:
+			serializer = serializers.ReviewSerializer(page, many=True)
+			return self.get_paginated_response(serializer.data)
+
+		# Nếu không có phân trang, trả về tất cả kết quả
+		serializer = serializers.ReviewSerializer(reviews, many=True)
+		return Response(serializer.data)

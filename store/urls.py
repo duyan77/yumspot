@@ -1,0 +1,15 @@
+from django.urls import path, include
+from rest_framework import routers
+
+from store import views
+
+router = routers.DefaultRouter()
+router.register('restaurants', views.RetaurantViewSet, basename='restaurants')
+router.register('users', views.UserViewSet, basename='users')
+router.register('categories', views.CategoryViewSet, basename='categories')
+router.register('foods', views.FoodViewSet, basename='foods')
+
+urlpatterns = [
+
+	path("", include(router.urls)),
+]
