@@ -78,16 +78,19 @@ class FoodSerializer(serializers.ModelSerializer):
 	newPrice = serializers.SerializerMethodField()
 	restaurant = serializers.SerializerMethodField()
 	category = serializers.SerializerMethodField()
+	image = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Food
-		fields = ['id', 'name', 'rating', 'reviews', 'oldPrice', 'newPrice', 'discount', 'image',
-				  'restaurant', 'category', 'description']
+		fields = [
+			'id', 'name', 'rating', 'reviews', 'oldPrice', 'newPrice',
+			'discount', 'image', 'restaurant', 'category', 'description'
+		]
 
 	def get_rating(self, food):
-		food_reviews = food.review_set.all()
-		if food_reviews.exists():
-			avg = food_reviews.aggregate(models.Avg('rating'))['rating__avg']
+		reviews = food.review_set.all()
+		if reviews.exists():
+			avg = reviews.aggregate(models.Avg('rating'))['rating__avg']
 			return f"{avg:.1f}"
 		return "0.0"
 
@@ -105,11 +108,22 @@ class FoodSerializer(serializers.ModelSerializer):
 		return f"{discounted:,.0f}".replace(',', '.')
 
 	def get_restaurant(self, food):
-		restaurant = food.menu.restaurant  # đi qua Menu để lấy Restaurant
-		return RestaurantSerializer(restaurant).data
+		return RestaurantSerializer(food.menu.restaurant).data
 
 	def get_category(self, food):
 		return food.category.name if food.category else None
+
+	def get_image(self, food):
+		if food.image:
+			return food.image.url
+		return None
+	#
+	# def create(self, validated_data):
+	# 	request = self.context.get("request")
+	# 	image = request.FILES.get("image")
+	# 	if image:
+	# 		validated_data['image'] = image
+	# 	return super().create(validated_data)
 
 
 class ReviewSerializer(serializers.ModelSerializer):
