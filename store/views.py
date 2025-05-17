@@ -1,5 +1,6 @@
 import json
 
+from django.db.models import ExpressionWrapper, F, DecimalField
 from django.http import JsonResponse
 from oauth2_provider.models import AccessToken
 from oauth2_provider.views import TokenView
@@ -10,6 +11,7 @@ from rest_framework.response import Response
 
 from store import serializers, paginators
 from .models import Restaurant, User, Category, Food
+from .serializers import RestaurantSerializer
 
 
 class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView):
@@ -56,13 +58,20 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView
 	parser_classes = [parsers.MultiPartParser]
 
 	def get_permissions(self):
-		if self.action == "list" or self.action == "current_user":
+		if self.action in ["list", "current_user", "liked_restaurant"]:
 			return [permissions.IsAuthenticated()]
 		return [permissions.AllowAny()]
 
 	@action(methods=['get'], url_path="current-user", detail=False)
 	def current_user(self, request):
 		return Response(serializers.UserSerializer(request.user).data, status=status.HTTP_200_OK)
+
+	@action(methods=['get'], url_path="current-user/liked-restaurant", detail=False)
+	def liked_restaurant(self, request):
+		user = request.user
+		liked_restaurants = Restaurant.objects.filter(userlikerestaurant__user=user)
+		serializer = RestaurantSerializer(liked_restaurants, many=True)
+		return Response(serializer.data)
 
 
 class CustomTokenView(TokenView):
@@ -91,18 +100,50 @@ class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
-	queryset = Food.objects.filter(active=True)
+	queryset = Food.objects.filter(active=True).select_related(
+		'category',
+		'menu__restaurant'
+	).prefetch_related(
+		'review_set'
+	)
 	serializer_class = serializers.FoodSerializer
 	pagination_class = paginators.FoodPaginator
 
 	def get_queryset(self):
-		# Lấy tất cả các món ăn đang hoạt động
 		queryset = self.queryset
 
-		# Lọc theo tên món ăn nếu có
+		# Tính discounted_price = price * (1 - discount / 100)
+		discounted_price_expr = ExpressionWrapper(
+			F('price') * (1 - F('discount') / 100),
+			output_field=DecimalField(max_digits=10, decimal_places=2)
+		)
+
+		queryset = queryset.annotate(discounted_price=discounted_price_expr)
+
 		name = self.request.query_params.get("q")
 		if name:
 			queryset = queryset.filter(name__icontains=name)
+
+		min_price = self.request.query_params.get("min_price")
+		max_price = self.request.query_params.get("max_price")
+		if min_price:
+			queryset = queryset.filter(discounted_price__gte=min_price)
+		if max_price:
+			queryset = queryset.filter(discounted_price__lte=max_price)
+
+		category_id = self.request.query_params.get("category_id")
+		category_name = self.request.query_params.get("category")
+		if category_id:
+			queryset = queryset.filter(category__id=category_id)
+		elif category_name:
+			queryset = queryset.filter(category__name__icontains=category_name)
+
+		restaurant_id = self.request.query_params.get("restaurant_id")
+		restaurant_name = self.request.query_params.get("restaurant")
+		if restaurant_id:
+			queryset = queryset.filter(menu__restaurant__id=restaurant_id)
+		elif restaurant_name:
+			queryset = queryset.filter(menu__restaurant__name__icontains=restaurant_name)
 
 		return queryset
 

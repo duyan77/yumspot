@@ -1,6 +1,6 @@
+from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from cloudinary.models import CloudinaryField
 
 
 class User(AbstractUser):
@@ -52,6 +52,12 @@ class Restaurant(BaseModel):
 		'role': 'restaurant'
 	}, verbose_name="Chủ Nhà Hàng")
 	image = models.ImageField(null=True, blank=True, verbose_name="Hình Ảnh")
+	price_per_km = models.DecimalField(
+		max_digits=10,
+		decimal_places=2,
+		default=5000.0,
+		verbose_name="Giá mỗi km"
+	)
 
 	def __str__(self):
 		return self.name
@@ -80,6 +86,7 @@ class Food(BaseModel):
 	category = models.ForeignKey(Category, on_delete=models.CASCADE, default=None)
 	discount = models.DecimalField(max_digits=5, decimal_places=2, default=0.0)
 	image = models.ImageField(null=True, blank=True)
+	description = models.TextField(null=True, blank=True)
 
 	def __str__(self):
 		return self.name
@@ -88,7 +95,17 @@ class Food(BaseModel):
 class Follow(BaseModel):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
-	created_at = models.DateTimeField(auto_now_add=True)
+
+	class Meta:
+		unique_together = ('user', 'restaurant')
+
+
+class UserLikeRestaurant(BaseModel):
+	user = models.ForeignKey(User, on_delete=models.CASCADE)
+	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
+
+	class Meta:
+		unique_together = ('user', 'restaurant')
 
 
 class Review(BaseModel):
@@ -99,12 +116,9 @@ class Review(BaseModel):
 	comment = models.TextField()
 
 
-class Like(BaseModel):
+class UserLikeComment(BaseModel):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	review = models.ForeignKey(Review, on_delete=models.CASCADE)
-
-
-# image = CloudinaryField('image')
 
 
 class Order(BaseModel):

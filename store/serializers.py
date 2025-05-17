@@ -10,7 +10,8 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
 	class Meta:
 		model = Restaurant
-		fields = ['id', 'name', 'location', 'rating', 'reviews', 'image']
+		fields = ['id', 'name', 'location', 'rating', 'reviews', 'image', 'price_per_km',
+				  'description']
 
 	def get_rating(self, food):
 		food_reviews = food.review_set.all()
@@ -75,10 +76,13 @@ class FoodSerializer(serializers.ModelSerializer):
 	reviews = serializers.SerializerMethodField()
 	oldPrice = serializers.SerializerMethodField()
 	newPrice = serializers.SerializerMethodField()
+	restaurant = serializers.SerializerMethodField()
+	category = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Food
-		fields = ['id', 'name', 'rating', 'reviews', 'oldPrice', 'newPrice', 'discount', 'image']
+		fields = ['id', 'name', 'rating', 'reviews', 'oldPrice', 'newPrice', 'discount', 'image',
+				  'restaurant', 'category', 'description']
 
 	def get_rating(self, food):
 		food_reviews = food.review_set.all()
@@ -99,6 +103,13 @@ class FoodSerializer(serializers.ModelSerializer):
 	def get_newPrice(self, food):
 		discounted = food.price * (1 - food.discount / 100)
 		return f"{discounted:,.0f}".replace(',', '.')
+
+	def get_restaurant(self, food):
+		restaurant = food.menu.restaurant  # đi qua Menu để lấy Restaurant
+		return RestaurantSerializer(restaurant).data
+
+	def get_category(self, food):
+		return food.category.name if food.category else None
 
 
 class ReviewSerializer(serializers.ModelSerializer):
