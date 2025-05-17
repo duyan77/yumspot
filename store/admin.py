@@ -12,7 +12,7 @@ from unfold.forms import AdminPasswordChangeForm, UserCreationForm, UserChangeFo
 from unfold.sites import UnfoldAdminSite
 
 from store import dao
-from .models import User, Restaurant, Food, Category
+from .models import User, Restaurant, Food, Category, Menu
 
 admin.site.unregister(Group)
 
@@ -88,6 +88,7 @@ class UserAdmin(BaseUserAdmin, ModelAdmin):
 	warn_unsaved_form = True
 	change_form_show_cancel_button = True
 	list_filter_sheet = True
+	ordering = ['id']
 
 	add_fieldsets = (
 		(None, {
@@ -119,14 +120,15 @@ class GroupAdmin(ModelAdmin):
 
 @admin.register(Restaurant, site=custom_admin_site)
 class RestaurantAdmin(ModelAdmin):
-	list_display = ("name", "location", "user", "description")
-	list_editable = ("location", "user")
+	list_display = ("name", "location", "user", "image", "description")
+	list_editable = ("location", "user", "image")
 	list_filter = ("name", "location", "user")
 	search_fields = ("name", "location")
 	compressed_fields = True
 	warn_unsaved_form = True
 	change_form_show_cancel_button = True
 	list_filter_sheet = True
+	ordering = ['id']
 
 
 @admin.register(Food, site=custom_admin_site)
@@ -139,6 +141,7 @@ class FoodAdmin(ModelAdmin):
 	warn_unsaved_form = True
 	change_form_show_cancel_button = True
 	list_filter_sheet = True
+	ordering = ['id']
 
 
 @admin.register(Category, site=custom_admin_site)
@@ -151,6 +154,19 @@ class CategoryAdmin(ModelAdmin):
 	warn_unsaved_form = True
 	change_form_show_cancel_button = True
 	list_filter_sheet = True
+	ordering = ['id']
+
+
+@admin.register(Menu, site=custom_admin_site)
+class MenuAdmin(ModelAdmin):
+	list_display = ("id", "restaurant", "category")
+	list_editable = ("restaurant", "category")
+	list_filter = ("restaurant", "category")
+	compressed_fields = True
+	warn_unsaved_form = True
+	change_form_show_cancel_button = True
+	list_filter_sheet = True
+	ordering = ['id']
 
 
 def dashboard_callback(request, context):

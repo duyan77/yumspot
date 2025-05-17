@@ -7,6 +7,7 @@ from .models import Restaurant, User, Review, Category, Food
 class RestaurantSerializer(serializers.ModelSerializer):
 	rating = serializers.SerializerMethodField()
 	reviews = serializers.SerializerMethodField()
+	image = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Restaurant
@@ -25,6 +26,11 @@ class RestaurantSerializer(serializers.ModelSerializer):
 		if count >= 1000:
 			return f"{count / 1000:.1f}k"
 		return str(count)
+
+	def get_image(self, food):
+		if food.image:
+			return food.image.url
+		return None
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -68,14 +74,14 @@ class ReviewSerializer(serializers.ModelSerializer):
 class CategorySerializer(serializers.ModelSerializer):
 	icon = serializers.SerializerMethodField()
 
+	class Meta:
+		model = Category
+		fields = ['id', 'name', 'icon']
+
 	def get_icon(self, obj):
 		if obj.icon:
 			return obj.icon.url
 		return None
-
-	class Meta:
-		model = Category
-		fields = ['id', 'name', 'icon']
 
 
 class FoodSerializer(serializers.ModelSerializer):

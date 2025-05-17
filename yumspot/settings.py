@@ -125,6 +125,11 @@ UNFOLD = {
 						"title": _("Danh mục"),
 						"icon": "category",
 						"link": reverse_lazy("admin:store_category_changelist"),
+					},
+					{
+						"title": _("Menu"),
+						"icon": "menu_book",
+						"link": reverse_lazy("admin:store_menu_changelist"),
 					}
 				],
 			},
