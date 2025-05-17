@@ -66,6 +66,13 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializer(serializers.ModelSerializer):
+	icon = serializers.SerializerMethodField()
+
+	def get_icon(self, obj):
+		if obj.icon:
+			return obj.icon.url
+		return None
+
 	class Meta:
 		model = Category
 		fields = ['id', 'name', 'icon']
@@ -117,13 +124,6 @@ class FoodSerializer(serializers.ModelSerializer):
 		if food.image:
 			return food.image.url
 		return None
-	#
-	# def create(self, validated_data):
-	# 	request = self.context.get("request")
-	# 	image = request.FILES.get("image")
-	# 	if image:
-	# 		validated_data['image'] = image
-	# 	return super().create(validated_data)
 
 
 class ReviewSerializer(serializers.ModelSerializer):

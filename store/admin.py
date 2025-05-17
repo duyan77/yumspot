@@ -6,14 +6,13 @@ from django.contrib.auth.models import Group
 from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils.timezone import now, timedelta, localtime
+from multi_captcha_admin.admin import MultiCaptchaAdminAuthenticationForm
 from unfold.admin import ModelAdmin
 from unfold.forms import AdminPasswordChangeForm, UserCreationForm, UserChangeForm
 from unfold.sites import UnfoldAdminSite
-from multi_captcha_admin.admin import MultiCaptchaAdminAuthenticationForm
-
 
 from store import dao
-from .models import User, Restaurant, Food
+from .models import User, Restaurant, Food, Category
 
 admin.site.unregister(Group)
 
@@ -136,6 +135,18 @@ class FoodAdmin(ModelAdmin):
 	list_editable = ("name", "price", "category")
 	list_filter = ("name", "price", "category")
 	search_fields = ("name", "price")
+	compressed_fields = True
+	warn_unsaved_form = True
+	change_form_show_cancel_button = True
+	list_filter_sheet = True
+
+
+@admin.register(Category, site=custom_admin_site)
+class CategoryAdmin(ModelAdmin):
+	list_display = ("id", "name", "icon")
+	list_editable = ("name", "icon")
+	list_filter = ("name",)
+	search_fields = ("name",)
 	compressed_fields = True
 	warn_unsaved_form = True
 	change_form_show_cancel_button = True
