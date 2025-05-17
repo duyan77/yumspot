@@ -1,6 +1,7 @@
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.db.models import ImageField
 
 
 class User(AbstractUser):
@@ -27,7 +28,7 @@ class User(AbstractUser):
 		super().save(*args, **kwargs)
 
 	def __str__(self):
-		return f"{self.username} ({self.role})"
+		return f"{self.username} ({self.role})" if self.role and self.username else "No Name"
 
 	class Meta:
 		verbose_name = 'User'
@@ -44,7 +45,8 @@ class BaseModel(models.Model):
 
 
 class Restaurant(BaseModel):
-	name = models.CharField(max_length=255, verbose_name="Tên Nhà Hàng")
+	name = models.CharField(max_length=255, verbose_name="Tên Nhà Hàng", null=False, blank=False,
+							default='No Name')
 	description = models.TextField(verbose_name="Mô Tả")
 	location = models.CharField(max_length=255, verbose_name="Địa Chỉ")
 	user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={
@@ -60,7 +62,7 @@ class Restaurant(BaseModel):
 	)
 
 	def __str__(self):
-		return self.name
+		return str(self.name) if self.name else "No Name"
 
 
 class Category(BaseModel):

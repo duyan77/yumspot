@@ -114,7 +114,6 @@ UNFOLD = {
 						"title": _("Nhà hàng"),
 						"icon": "restaurant",
 						"link": reverse_lazy("admin:store_restaurant_changelist"),
-						"permission": permission_callback,
 					},
 					{
 						"title": _("Thực phẩm"),

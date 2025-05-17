@@ -120,8 +120,8 @@ class GroupAdmin(ModelAdmin):
 
 @admin.register(Restaurant, site=custom_admin_site)
 class RestaurantAdmin(ModelAdmin):
-	list_display = ("name", "location", "user", "image", "description")
-	list_editable = ("location", "user", "image")
+	list_display = ("name", "location", "user", "description")
+	list_editable = ("location", "user")
 	list_filter = ("name", "location", "user")
 	search_fields = ("name", "location")
 	compressed_fields = True
