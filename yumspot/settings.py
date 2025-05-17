@@ -249,6 +249,8 @@ REST_FRAMEWORK = {
 
 CSRF_TRUSTED_ORIGINS = [
 	"https://0d62-14-169-73-56.ngrok-free.app",
+	'https://yumspot.online',
+	'https://www.yumspot.online',
 ]
 
 # 'CLIENT_ID': jyt7S9M6k8NssDHoNQNyLgbeFJfi5qnKElHMeJxp
