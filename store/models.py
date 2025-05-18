@@ -1,7 +1,6 @@
 from cloudinary.models import CloudinaryField
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-from django.db.models import ImageField
 
 
 class User(AbstractUser):
@@ -114,7 +113,7 @@ class Review(BaseModel):
 	user = models.ForeignKey(User, on_delete=models.CASCADE)
 	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE, null=True, blank=True)
 	food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True, blank=True)
-	rating = models.IntegerField()
+	rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=5)
 	comment = models.TextField()
 
 
