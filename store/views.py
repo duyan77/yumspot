@@ -2,7 +2,6 @@ import json
 
 from django.db.models import ExpressionWrapper, F, DecimalField
 from django.http import JsonResponse
-from django.template.defaulttags import comment
 from oauth2_provider.models import AccessToken
 from oauth2_provider.views import TokenView
 from rest_framework import status
@@ -58,11 +57,12 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView):
 	@action(methods=['post'], url_path="add-review", detail=True)
 	def add_review(self, request, pk):
 		cmt = request.data.get("comment")
-		if comment:
-			review = Review(comment=cmt, user=request.user, restaurant=self.get_object())
+		if cmt:
+			review = Review.objects.create(comment=cmt, user=request.user,
+										   restaurant=self.get_object())
 			return Response(serializers.ReviewSerializer(review).data,
 							status=status.HTTP_201_CREATED)
-		return None
+		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
@@ -195,3 +195,14 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 		# Nếu không có phân trang, trả về tất cả kết quả
 		serializer = serializers.ReviewSerializer(reviews, many=True)
 		return Response(serializer.data)
+
+
+class ReviewViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView,
+					generics.UpdateAPIView):
+	queryset = Review.objects.filter(active=True)
+	serializer_class = serializers.ReviewSerializer
+
+	def get_permissions(self):
+		if self.action in ["destroy", "update"]:
+			return [permissions.IsAuthenticated()]
+		return [permissions.AllowAny()]
