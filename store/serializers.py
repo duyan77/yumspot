@@ -135,5 +135,4 @@ class FoodSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Review
-		fields = ['id', 'user', 'restaurant', 'comment']
-		read_only_fields = ['user', 'restaurant']
+		fields = ['id', 'comment', 'created_at', 'updated_at']
