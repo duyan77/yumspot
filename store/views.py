@@ -2,6 +2,7 @@ import json
 
 from django.db.models import ExpressionWrapper, F, DecimalField
 from django.http import JsonResponse
+from django.template.defaulttags import comment
 from oauth2_provider.models import AccessToken
 from oauth2_provider.views import TokenView
 from rest_framework import status
@@ -10,7 +11,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from store import serializers, paginators
-from .models import Restaurant, User, Category, Food
+from .models import Restaurant, User, Category, Food, Review
 from .serializers import RestaurantSerializer
 
 
@@ -31,10 +32,13 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 		return queryset
 
+	def get_permissions(self):
+		if self.action == "add_review":
+			return [permissions.IsAuthenticated()]
+		return [permissions.AllowAny()]
+
 	@action(methods=['get'], url_path="foods", detail=True)
 	def get_foods(self, request, pk):
-		# queryset = self.get_queryset()
-
 		# Lấy nhà hàng theo pk
 		restaurant = self.get_object()
 
@@ -50,6 +54,16 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView):
 		# Nếu không có phân trang, trả về tất cả kết quả
 		serializer = serializers.FoodSerializer(foods, many=True)
 		return Response(serializer.data)
+
+	@action(methods=['post'], url_path="add-review", detail=True)
+	def add_review(self, request, pk):
+		cmt = request.data.get("comment")
+		if comment:
+			review = Review.objects.create(comment=cmt, user=request.user,
+										   restaurant=self.get_object())
+			return Response(serializers.ReviewSerializer(review).data,
+							status=status.HTTP_201_CREATED)
+		return None
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
@@ -182,3 +196,8 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 		# Nếu không có phân trang, trả về tất cả kết quả
 		serializer = serializers.ReviewSerializer(reviews, many=True)
 		return Response(serializer.data)
+
+
+class ReviewViewSet(viewsets.ViewSet, generics.ListAPIView):
+	queryset = Review.objects.filter(active=True)
+	serializer_class = serializers.ReviewSerializer
