@@ -14,22 +14,22 @@ class RestaurantSerializer(serializers.ModelSerializer):
 		fields = ['id', 'name', 'location', 'rating', 'reviews', 'image', 'price_per_km',
 				  'description']
 
-	def get_rating(self, food):
-		food_reviews = food.review_set.all()
+	def get_rating(self, res):
+		food_reviews = res.review_set.all()
 		if food_reviews.exists():
 			avg = food_reviews.aggregate(models.Avg('rating'))['rating__avg']
 			return f"{avg:.1f}"
 		return "0.0"
 
-	def get_reviews(self, food):
-		count = food.review_set.count()
+	def get_reviews(self, res):
+		count = res.review_set.count()
 		if count >= 1000:
 			return f"{count / 1000:.1f}k"
 		return str(count)
 
-	def get_image(self, food):
-		if food.image:
-			return food.image.url
+	def get_image(self, res):
+		if res.image:
+			return res.image.url
 		return None
 
 

@@ -9,12 +9,12 @@ from rest_framework import viewsets, generics, parsers, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-from store import serializers, paginators
+from store import serializers, paginators, perms
 from .models import Restaurant, User, Category, Food, Review
 from .serializers import RestaurantSerializer
 
 
-class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView):
+class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView):
 	queryset = Restaurant.objects.filter(
 		active=True).all()
 	serializer_class = serializers.RestaurantSerializer
@@ -34,6 +34,8 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView):
 	def get_permissions(self):
 		if self.action == "add_review":
 			return [permissions.IsAuthenticated()]
+		elif self.action == "create":
+			return [perms.IsRestaurantOwner(), perms.OwnerAuthenticated()]
 		return [permissions.AllowAny()]
 
 	@action(methods=['get'], url_path="foods", detail=True)
@@ -204,5 +206,5 @@ class ReviewViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIV
 
 	def get_permissions(self):
 		if self.action in ["destroy", "update"]:
-			return [permissions.IsAuthenticated()]
+			return [perms.OwnerAuthenticated()]
 		return [permissions.AllowAny()]

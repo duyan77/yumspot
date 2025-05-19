@@ -262,5 +262,9 @@ CSRF_TRUSTED_ORIGINS = [
 	'https://www.yumspot.online',
 ]
 
+# OAUTH2_PROVIDER = {
+# 	'OAUTH2_BACKEND_CLASS': 'oauth2_provider.oauth2_backends.JSONOAuth2Backend',
+# }
+
 # 'CLIENT_ID': jyt7S9M6k8NssDHoNQNyLgbeFJfi5qnKElHMeJxp
 # 'CLIENT_SECRET': RT007jDkJEvDOMeWisC7Q03mTKe5YZIIe8BNfSVj9HyPoLaixMirYDPJ4VTl3bKlenZygkesFO8CDBIicRjLW2UHrLy6MANgjrZ3iRxJSNTMvq2rpzWvIFfnLwOj6CVk
