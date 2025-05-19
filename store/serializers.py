@@ -32,6 +32,15 @@ class RestaurantSerializer(serializers.ModelSerializer):
 			return res.image.url
 		return None
 
+	def create(self, validated_data):
+		request = self.context.get('request')
+		user = request.user if request else None
+		if not user:
+			raise serializers.ValidationError("User is required.")
+
+		restaurant = Restaurant.objects.create(user=user, **validated_data)
+		return restaurant
+
 
 class UserSerializer(serializers.ModelSerializer):
 	avatar = serializers.SerializerMethodField()
