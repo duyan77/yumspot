@@ -198,7 +198,8 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 		serializer = serializers.ReviewSerializer(reviews, many=True)
 		return Response(serializer.data)
 
-	@action(methods=['post'], url_path="add-review", detail=True)
+	@action(methods=['post'], url_path="add-review", detail=True,
+			permission_classes=[permissions.IsAuthenticated])
 	def add_review(self, request, pk):
 		cmt = request.data.get("comment")
 		rating = request.data.get("rating")
