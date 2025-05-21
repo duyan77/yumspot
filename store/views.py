@@ -246,7 +246,7 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
-	queryset = Review.objects.filter(active=True)
+	queryset = Review.objects.select_related('user').filter(active=True)
 	serializer_class = serializers.ReviewSerializer
 
 	def get_permissions(self):
