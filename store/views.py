@@ -199,8 +199,7 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 		return Response(serializer.data)
 
 
-class ReviewViewSet(viewsets.ViewSet, generics.ListAPIView, generics.DestroyAPIView,
-					generics.UpdateAPIView):
+class ReviewViewSet(viewsets.ModelViewSet):
 	queryset = Review.objects.filter(active=True)
 	serializer_class = serializers.ReviewSerializer
 
