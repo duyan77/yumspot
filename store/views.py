@@ -106,7 +106,8 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView
 		serializer = RestaurantSerializer(liked_restaurants, many=True)
 		return Response(serializer.data)
 
-	@action(methods=['put', 'patch'], url_path='current-user/update', detail=False)
+	@action(methods=['put', 'patch'], url_path='current-user/update', detail=False,
+			permission_classes=[permissions.IsAuthenticated])
 	def update_current_user(self, request):
 		user = request.user
 		serializer = self.get_serializer(user, data=request.data, partial=True)
