@@ -135,15 +135,13 @@ class FoodSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
-	user = serializers.SerializerMethodField()
+	username = serializers.SerializerMethodField()
 
-	def get_user(self, review):
+	def get_username(self, review):
 		if review.user:
-			return {
-				'username': review.user.username,
-			}
-		return None
+			return review.user.username
+		return ''
 
 	class Meta:
 		model = Review
-		fields = ['id', 'comment', 'created_at', 'updated_at', 'user']
+		fields = ['id', 'comment', 'created_at', 'updated_at', 'username']

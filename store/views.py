@@ -11,6 +11,7 @@ from rest_framework.response import Response
 
 from store import serializers, paginators, perms
 from .models import Restaurant, User, Category, Food, Review
+from .paginators import ReviewPaginator
 from .serializers import RestaurantSerializer
 
 
@@ -218,11 +219,12 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 		# Lấy tất cả các bình luận của món ăn
 		reviews = food.review_set.all()
 
-		# Phân trang kết quả
-		page = self.paginate_queryset(reviews)
+		paginator = ReviewPaginator()
+		page = paginator.paginate_queryset(reviews, request)
+
 		if page is not None:
 			serializer = serializers.ReviewSerializer(page, many=True)
-			return self.get_paginated_response(serializer.data)
+			return paginator.get_paginated_response(serializer.data)
 
 		# Nếu không có phân trang, trả về tất cả kết quả
 		serializer = serializers.ReviewSerializer(reviews, many=True)
@@ -248,6 +250,7 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 class ReviewViewSet(viewsets.ModelViewSet):
 	queryset = Review.objects.select_related('user').filter(active=True)
 	serializer_class = serializers.ReviewSerializer
+	pagination_class = ReviewPaginator
 
 	def get_permissions(self):
 		if self.action in ["destroy", "update", "create"]:
