@@ -73,20 +73,6 @@ class UserSerializer(serializers.ModelSerializer):
 		return user
 
 
-class ReviewSerializer(serializers.ModelSerializer):
-	user = serializers.SerializerMethodField()
-
-	def get_user(self, obj):
-		return {
-			'username': obj.user.username,
-		}
-
-	class Meta:
-		model = Review
-		fields = '__all__'
-		read_only_fields = ['user', 'restaurant']
-
-
 class CategorySerializer(serializers.ModelSerializer):
 	icon = serializers.SerializerMethodField()
 
@@ -149,6 +135,15 @@ class FoodSerializer(serializers.ModelSerializer):
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+	user = serializers.SerializerMethodField()
+
+	def get_user(self, review):
+		if review.user:
+			return {
+				'username': review.user.username,
+			}
+		return None
+
 	class Meta:
 		model = Review
-		fields = ['id', 'comment', 'created_at', 'updated_at']
+		fields = ['id', 'comment', 'created_at', 'updated_at', 'user']
