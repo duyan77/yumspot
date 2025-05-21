@@ -233,9 +233,13 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 	def add_review(self, request, pk):
 		cmt = request.data.get("comment")
 		rating = request.data.get("rating")
-		if cmt and rating:
-			review = Review.objects.create(comment=cmt, rating=rating, user=request.user,
-										   food=self.get_object())
+		if cmt:
+			if rating:
+				review = Review.objects.create(comment=cmt, rating=rating, user=request.user,
+											   food=self.get_object())
+			else:
+				review = Review.objects.create(comment=cmt, user=request.user,
+											   food=self.get_object())
 			return Response(serializers.ReviewSerializer(review).data,
 							status=status.HTTP_201_CREATED)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
