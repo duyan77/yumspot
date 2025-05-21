@@ -106,6 +106,17 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView
 		serializer = RestaurantSerializer(liked_restaurants, many=True)
 		return Response(serializer.data)
 
+	@action(methods=['put', 'patch'], url_path='current-user/update', detail=False)
+	def update_current_user(self, request):
+		user = request.user
+		serializer = self.get_serializer(user, data=request.data, partial=True)
+		if serializer.is_valid():
+			if 'password' in request.data:
+				user.set_password(request.data['password'])
+			serializer.save()
+			return Response(serializers.UserSerializer(user).data, status=status.HTTP_200_OK)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class CustomTokenView(TokenView):
 	def post(self, request, *args, **kwargs):
