@@ -206,8 +206,8 @@ DATABASES = {
 		'ENGINE': 'django.db.backends.mysql',
 		'NAME': 'yumspot',
 		'USER': 'root',
-		'PASSWORD': 'Phuc14kute@',
-		'HOST': ''  # mặc định localhost
+		'PASSWORD': 'Phuc14kute',
+		'HOST': 'yumspot.c9ciw0am85u0.ap-southeast-2.rds.amazonaws.com'  # mặc định localhost
 	}
 }
 
