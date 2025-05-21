@@ -248,7 +248,7 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 
 class ReviewViewSet(viewsets.ModelViewSet):
-	queryset = Review.objects.select_related('user').filter(active=True)
+	queryset = Review.objects.select_related('user').filter(active=True).order_by('-created_at')
 	serializer_class = serializers.ReviewSerializer
 	pagination_class = ReviewPaginator
 
