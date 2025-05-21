@@ -11,7 +11,3 @@ class FoodPaginator(PageNumberPagination):
 
 class ReviewPaginator(PageNumberPagination):
 	page_size = 10
-
-	def paginate_queryset(self, queryset, request, view=None):
-		print("🔥 ReviewPaginator is used")
-		return super().paginate_queryset(queryset, request, view)
