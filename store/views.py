@@ -204,6 +204,6 @@ class ReviewViewSet(viewsets.ModelViewSet):
 	serializer_class = serializers.ReviewSerializer
 
 	def get_permissions(self):
-		if self.action in ["destroy", "update"]:
+		if self.action in ["destroy", "update", "create"]:
 			return [perms.OwnerAuthenticated()]
 		return [permissions.AllowAny()]
