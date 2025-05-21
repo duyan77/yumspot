@@ -66,6 +66,24 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
 							status=status.HTTP_201_CREATED)
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 
+	@action(methods=['get'], url_path="comments", detail=True)
+	def get_comments(self, request, pk):
+		# Lấy nhà hàng theo pk
+		restaurant = self.get_object()
+
+		# Lấy tất cả các bình luận của nhà hàng
+		reviews = restaurant.review_set.all()
+
+		# Phân trang kết quả
+		page = self.paginate_queryset(reviews)
+		if page is not None:
+			serializer = serializers.ReviewSerializer(page, many=True)
+			return self.get_paginated_response(serializer.data)
+
+		# Nếu không có phân trang, trả về tất cả kết quả
+		serializer = serializers.ReviewSerializer(reviews, many=True)
+		return Response(serializer.data)
+
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
 	queryset = User.objects.filter(is_active=True).all()
