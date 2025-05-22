@@ -115,6 +115,7 @@ class Review(BaseModel):
 	food = models.ForeignKey(Food, on_delete=models.CASCADE, null=True, blank=True)
 	rating = models.IntegerField(choices=[(i, str(i)) for i in range(1, 6)], default=5)
 	comment = models.TextField()
+	image = CloudinaryField('image', null=True, blank=True)
 
 
 class UserLikeComment(BaseModel):

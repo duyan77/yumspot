@@ -136,12 +136,18 @@ class FoodSerializer(serializers.ModelSerializer):
 
 class ReviewSerializer(serializers.ModelSerializer):
 	username = serializers.SerializerMethodField()
+	image = serializers.SerializerMethodField()
 
 	def get_username(self, review):
 		if review.user:
 			return review.user.username
 		return ''
 
+	def get_image(self, review):
+		if review.image:
+			return review.image.url
+		return None
+
 	class Meta:
 		model = Review
-		fields = ['id', 'comment', 'created_at', 'updated_at', 'username']
+		fields = ['id', 'comment', 'created_at', 'updated_at', 'username', 'image']
