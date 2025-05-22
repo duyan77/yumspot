@@ -1,0 +1,2466 @@
+[
+{
+  "model": "store.user",
+  "pk": 3,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$d6QoL772ZAacz7uPNqYkwk$Y2GnoUn8SQqjflwyCSVqHPrCdr0h0se+EMGy2xnT3rU=",
+    "last_login": "2025-05-21T12:20:11Z",
+    "is_superuser": true,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-03-24T01:43:37Z",
+    "username": "admin",
+    "role": "admin",
+    "email": "admin@example.com",
+    "created_at": "2025-03-24T01:43:38.305Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 7,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$BibAWh74XKFMQHrfSVmVvm$8uaaY1SxQyVQHFxgqpt+tp8/zgN7kSyUJ88lGNy152E=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-03T03:04:44Z",
+    "username": "resowner",
+    "role": "restaurant",
+    "email": "anbui5948@gmail.com",
+    "created_at": "2025-04-03T03:04:44.367Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 8,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$o8GEue7m286CYYsbyidN9E$93Ra4BxN0p8q2KUYupHEvJvibNfgzUldZ1C2u79een8=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-03T06:01:31.179Z",
+    "username": "resown1",
+    "role": "customer",
+    "email": "resown1@gmail.com",
+    "created_at": "2025-04-03T06:01:31.602Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 9,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$p42SYf7Tm0mZ4zQ8U7yVKO$vwGNRLrADeR5A50RYcndS9McPGtKikBq3K/GvDGacA8=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-03T06:03:16.871Z",
+    "username": "cus1",
+    "role": "customer",
+    "email": "cus1@gmail.com",
+    "created_at": "2025-04-03T06:03:17.273Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 10,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$ixOUjbK4p6iBCuhP1Bed9b$/XPxDlC826TirL3r8RdI3Yl2upfJhcK0W7uXzmnbHw8=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-03T06:14:37Z",
+    "username": "resown2",
+    "role": "restaurant",
+    "email": "resown2@gmail.com",
+    "created_at": "2025-04-03T06:14:38.195Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 11,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$eAnquP4JDf5YcRBMjYaBZp$Sf8pwIVxgOg9G7C4+SayMAq3GscanQOSp2uzEiKD74w=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-03T06:24:24.452Z",
+    "username": "resown3",
+    "role": "restaurant",
+    "email": "resown3@gmail.com",
+    "created_at": "2025-04-03T06:24:24.853Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 12,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$M92PLmNYiejKly8t4eAf4p$LLpsyf0QuFv4vTSfhPnkUOIn+iI70OwKPSwsXT8dM0Y=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-04-07T11:24:22.022Z",
+    "username": "resown4",
+    "role": "restaurant",
+    "email": "resown4@gmail.com",
+    "created_at": "2025-04-07T11:24:22.421Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 14,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$IusggiaqflQ5uvd4ItPCQX$XGiJNS5VCFndA1/h6avXxXyKUyQj8rhkhykApEs3q3c=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-11T14:04:42.443Z",
+    "username": "newuser",
+    "role": "customer",
+    "email": "newuser@example.com",
+    "created_at": "2025-05-11T14:04:42.823Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 15,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$5ZOAszMQSm7cOZqyztpNpt$ZTjtKidq8lGJsfE9aOIFvZEJZj5EnfZCM9v9g+dfrtM=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-11T14:39:05.053Z",
+    "username": "testuser1",
+    "role": "customer",
+    "email": "testuser1@example.com",
+    "created_at": "2025-05-11T14:39:05.560Z",
+    "avatar": "image/upload/v1746974349/uosiy2yrnakj7wfdhhuc.png",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 16,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$Tt7BWwRgtYqFbbaezxV4tN$NFd/AZpraApV/0nVQwDfBWjFdIuxLW5LryU6Om62r3Y=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T06:41:25.915Z",
+    "username": "test15",
+    "role": "customer",
+    "email": "test15@gmail.com",
+    "created_at": "2025-05-15T06:41:26.469Z",
+    "avatar": "image/upload/v1747291301/adqimiedh3x4ldt7z2va.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 17,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$4B397jgfEfGmkdDvraBhuC$d2amXiiyHcNeaAHAaJH/85nxm/1s/lrYHZYq6FY9jvo=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T06:48:35.890Z",
+    "username": "test16",
+    "role": "customer",
+    "email": "test16@gmail.com",
+    "created_at": "2025-05-15T06:48:36.257Z",
+    "avatar": "image/upload/v1747291728/ayc8xmoe7gl3sc2twinz.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 18,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$zgfGP2AY3dMfmqlUrXF3qZ$BezYAdItKOvxtUKdHDh/UfsmxHpClCzR/TouAMsXdSw=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T06:50:47.611Z",
+    "username": "test17",
+    "role": "customer",
+    "email": "test17@gmail.com",
+    "created_at": "2025-05-15T06:50:48.083Z",
+    "avatar": "image/upload/v1747291855/hco70mnanxrl41j41oow.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 19,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$pIFVuGlyXY2CjqNx6GWIN9$JFlBq+DwCODn8Ejvw83bU6umvmNsah26x2yZkEpTmrc=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T06:54:07.842Z",
+    "username": "test18",
+    "role": "customer",
+    "email": "test18@gmail.com",
+    "created_at": "2025-05-15T06:54:08.473Z",
+    "avatar": "image/upload/v1747292093/x9dxtzrhdleyaxlnodor.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 20,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$Cu3nn3QCSJStqgU7gbOFhU$avzpU63Ksd1Uz5faYH3QxLkZCuj3hr2cy6T892Q8xgk=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T06:58:31.570Z",
+    "username": "test19",
+    "role": "customer",
+    "email": "test19@gmail.com",
+    "created_at": "2025-05-15T06:58:31.990Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 21,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$o1COKbbSA5X5aFVvdZ6MIs$titGAVPymYt9zM878awK4AhhhSlW3EXrRBWAAZhio2s=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T06:59:42.768Z",
+    "username": "test20",
+    "role": "customer",
+    "email": "test20@gmail.com",
+    "created_at": "2025-05-15T06:59:43.201Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 22,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$fMrNWskgBMCq8ACYOmFhye$aCxdc3KbFfmuK3o/cRlkdvJrTx6RUXDYCyV6WGA5iRc=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T07:00:48.264Z",
+    "username": "test21",
+    "role": "customer",
+    "email": "test21@gmail.com",
+    "created_at": "2025-05-15T07:00:48.689Z",
+    "avatar": "image/upload/v1747292487/qe2i2gasxmz7ufnsx3um.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 23,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$J0sJ390uRRnJIIAQlOSX0C$y6RTiT7xiQ1Emf7ivqHC/y3XjRfi6tklUxJw7TxFEkI=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T07:14:53.263Z",
+    "username": "test22",
+    "role": "customer",
+    "email": "test22@gmail.com",
+    "created_at": "2025-05-15T07:14:53.626Z",
+    "avatar": "image/upload/v1747293305/eyd1youvynn8smc1effr.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 24,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$afqY63PKchLS3ZslCK1vPo$fSe0nqxvsDdg3k0dEq5jdrNNGtsRyywW8xmXN41+fZo=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T07:17:57.815Z",
+    "username": "test23",
+    "role": "customer",
+    "email": "test23@gmail.com",
+    "created_at": "2025-05-15T07:17:58.208Z",
+    "avatar": "image/upload/v1747293491/bal4t4m7jvwlg0kvuqrh.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 25,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$zoFQ5HHbmmWQxtZ7TWWbfd$4slo9MBs2Q+bSuF5XLw+Zj/O1PGaSqtYLjeeLRTVPhY=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:23:44.804Z",
+    "username": "Phúc Tấn",
+    "role": "customer",
+    "email": "Nguyentan14kute@gmail.com",
+    "created_at": "2025-05-15T08:23:45.241Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 26,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$4GrlktwLwH00Q6IoKKDAGZ$Nrid4BpDa4gRnrIlCAT8DGWtZzqbZLak97OQy+PWIFc=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:34:22.667Z",
+    "username": "Phúc Tấn12",
+    "role": "customer",
+    "email": "nguyentan145kute@gmail.com",
+    "created_at": "2025-05-15T08:34:23.028Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 27,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$uH87i5kwanpKHBuxNirvmn$lM7z7Lw5hjxz/5moN3lKv4WoflTTciQDC7pEYZVosj0=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:34:38.787Z",
+    "username": "Phúc Tấn 14",
+    "role": "customer",
+    "email": "nguyentan6614kute@gmail.com",
+    "created_at": "2025-05-15T08:34:39.190Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 28,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$VdRckSn6rq5K7moy6J6Mrq$dvXKRUlPmvIZ4H0Ntqoc7ROOeBwgoNIu9oFgpQuAF1w=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": false,
+    "date_joined": "2025-05-15T08:35:43.504Z",
+    "username": "Abc",
+    "role": "restaurant",
+    "email": "Abchhdfh@gmail.com",
+    "created_at": "2025-05-15T08:35:43.897Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 29,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$WQ0fqYNW3kVnMJNflN5CVA$Cr2B4x78wx/EMJXwRLERcYlFcb/m7lPIvU2EYf8VPb4=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:38:36.085Z",
+    "username": "Hhhh",
+    "role": "customer",
+    "email": "Phhguc14@gmail.com",
+    "created_at": "2025-05-15T08:38:36.512Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 30,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$9Q4u2VFEW010CUpsByfEIW$o2zhV8Cr9/Tj8UtCUftyiyAJBx3q6v/Ygu9YzulMmUQ=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:40:58.458Z",
+    "username": "Phúc Tấn12777",
+    "role": "customer",
+    "email": "nguyentarrrn145kute@gmail.com",
+    "created_at": "2025-05-15T08:40:59.028Z",
+    "avatar": "image/upload/v1747298467/rd6sv5kkbmrazjdebbg0.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 31,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$OdxtWG0Vw4cjTHEu44KlrG$E54i+LoZJtw51z6bak6rcj89hlqTHqNH3lCzTmS85XU=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:44:06.152Z",
+    "username": "Duyan123",
+    "role": "customer",
+    "email": "Duyan123@gmail.com",
+    "created_at": "2025-05-15T08:44:06.767Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 32,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$AKaIMp6hIlvqVElCDcqXa5$0eTdToURLDe8UdTYj0ltAYE99Q1OGZGi/T3e6kx2abA=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:45:14.719Z",
+    "username": "Duyan123750",
+    "role": "customer",
+    "email": "Duyan1hhhcc23@gmail.com",
+    "created_at": "2025-05-15T08:45:15.195Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 33,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$laVeEA4RSkgM4L2e39CH6r$gFzGMRPM7SIMtkjo+2CUgM5ohCUfAVDPEYxlx3I5Qg8=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T08:46:01.302Z",
+    "username": "Hjdkxbfh",
+    "role": "customer",
+    "email": "Hjdi4hc@gmail.com",
+    "created_at": "2025-05-15T08:46:01.787Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 34,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$xmlcCfcPJLDX9tbNcgGF2E$EZcjhsFFdV8IZe052mge3+jC/S5Mb5AKK9bMeJGIvwo=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:10:21.697Z",
+    "username": "Hdhfhdh",
+    "role": "customer",
+    "email": "Hhdjfggghjffb@gmail.com",
+    "created_at": "2025-05-15T09:10:22.237Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 35,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$svV59OwFuk6dIsxP83pt0y$55SNKdrdy7id/tmInggWiFeg0AtnfocgCB9fMCv2Tqw=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:13:50.321Z",
+    "username": "Hdhfhdh66",
+    "role": "customer",
+    "email": "Hhdjfggghgggjffb@gmail.com",
+    "created_at": "2025-05-15T09:13:50.709Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 36,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$xlKchpGI3iPYOFbVpirIS0$jbj1SGtd2SOKfdYkBrkh5GcnDJj1Ooo2Q3OAloPsGJ0=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:14:36.331Z",
+    "username": "Hjfjfkelvvh",
+    "role": "customer",
+    "email": "Hdkdochjr@gmail.com",
+    "created_at": "2025-05-15T09:14:36.759Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 37,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$i8tw8OWCUQaPMwOe9r0swN$1l9S2Y+jJ7XFD7IE7Dey9McPn9ZsoAaVh6t6HOmWiwg=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:15:52.476Z",
+    "username": "Jdkffjg",
+    "role": "customer",
+    "email": "Jjdjfjfj@gmail.con",
+    "created_at": "2025-05-15T09:15:53.040Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 38,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$ClFaBB3vu9MA118o0QQPd0$Iof2nkdVLuWdBorNbvtt/EaHVKoP+OOe0emAmOykLbg=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:25:21.246Z",
+    "username": "Phúc Tấn12kk777",
+    "role": "customer",
+    "email": "nguyentfghjarrrn145kute@gmail.com",
+    "created_at": "2025-05-15T09:25:21.632Z",
+    "avatar": "image/upload/v1747301128/lxuqv7eyedcsoe4y5cbh.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 39,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$G9OaH8I8QUm7Rw5Wh9TYv7$h/Nc2KOU/1upy9UjwQh/fYsiIuC2l7yPO3+8y21u4PI=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:31:59.939Z",
+    "username": "12356",
+    "role": "customer",
+    "email": "16737abc@gmail.com",
+    "created_at": "2025-05-15T09:32:00.468Z",
+    "avatar": "image/upload/v1747301526/hrqmscc4z66ejmkvx49u.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 40,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$xPuAUet0EyfGr1NTdZcVh4$oaFTEJYwj7qT1T1/H0C8nP2p+E4cCHm/v6vhjgY89+A=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:33:26.579Z",
+    "username": "Tan124",
+    "role": "customer",
+    "email": "65724@gmail.com",
+    "created_at": "2025-05-15T09:33:27.101Z",
+    "avatar": "image/upload/v1747301616/kmquzbie0rvqn6d4ntvd.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 41,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$MFyZ122zZ1ldtAnRpxqtGf$aQyYd+RE0VXZaHOiLIpuG5kgByuwsazhEQMw16uT3eg=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T09:37:00.287Z",
+    "username": "Kutepap",
+    "role": "customer",
+    "email": "Kutepap@gmail.com",
+    "created_at": "2025-05-15T09:37:00.755Z",
+    "avatar": "image/upload/v1747301824/h9rkmmmjy4q2rziccpmf.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 42,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$5c0LgBzvmmTFCpsR0iziBn$WPRUrWdeT0gHrHgyYec5EjrumkDaL6cNNHlS+kqB3xw=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-15T10:05:34.954Z",
+    "username": "Hshdhdh",
+    "role": "customer",
+    "email": "Jfifkfbcu@gmail.com",
+    "created_at": "2025-05-15T10:05:35.404Z",
+    "avatar": "image/upload/v1747303566/ykaqivvlkifpiklbmqlb.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 43,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$VRelIYM9q3YygUioRCCIZw$aOr/HY6xb7u5u/kPpjGHYHEBMxaEX6OsvR1kn6qAFWI=",
+    "last_login": "2025-05-16T03:29:09.951Z",
+    "is_superuser": true,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": true,
+    "is_active": true,
+    "date_joined": "2025-05-16T03:13:55.781Z",
+    "username": "duyan",
+    "role": "customer",
+    "email": "duyan@gmail.com",
+    "created_at": "2025-05-16T03:13:56.128Z",
+    "avatar": null,
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.user",
+  "pk": 44,
+  "fields": {
+    "password": "pbkdf2_sha256$870000$xajK51c2GnCBmB8FFQEoQ2$mxHZdxcE2CDLkKhbJ8F3ssO6suHxTtTnXkVPbG3YvVg=",
+    "last_login": null,
+    "is_superuser": false,
+    "first_name": "",
+    "last_name": "",
+    "is_staff": false,
+    "is_active": true,
+    "date_joined": "2025-05-21T13:20:45.069Z",
+    "username": "phuctan",
+    "role": "customer",
+    "email": "1234@gmail.com",
+    "created_at": "2025-05-21T13:20:45.761Z",
+    "avatar": "image/upload/v1747833647/mdctjeumugwffslaevvk.jpg",
+    "groups": [],
+    "user_permissions": []
+  }
+},
+{
+  "model": "store.restaurant",
+  "pk": 3,
+  "fields": {
+    "created_at": "2025-04-03T08:54:31.523Z",
+    "updated_at": "2025-05-21T14:35:54.857Z",
+    "active": true,
+    "name": "Nhà hàng Gạo",
+    "description": "Nhà hàng ẩm thực Việt cao cấp trong không gian biệt thự cổ.",
+    "location": "33 Lê Quý Đôn, Quận 3, TP.HCM",
+    "user": 10,
+    "image": "image/upload/v1747838155/xkzdmfvmtfkebalso1ux.jpg",
+    "price_per_km": "5000.00"
+  }
+},
+{
+  "model": "store.restaurant",
+  "pk": 4,
+  "fields": {
+    "created_at": "2025-04-07T10:46:07.258Z",
+    "updated_at": "2025-05-21T14:36:09.099Z",
+    "active": true,
+    "name": "Pizza 4P’s Hai Bà Trưng",
+    "description": "Chuỗi nhà hàng pizza nổi tiếng phong cách Ý do người Nhật sáng lập.",
+    "location": "151B Hai Bà Trưng, Quận 3, TP.HCM",
+    "user": 11,
+    "image": "image/upload/v1747838133/uaaxkxt8blqpehslqo6v.jpg",
+    "price_per_km": "5000.00"
+  }
+},
+{
+  "model": "store.restaurant",
+  "pk": 5,
+  "fields": {
+    "created_at": "2025-04-07T10:46:25.501Z",
+    "updated_at": "2025-05-21T14:32:17.148Z",
+    "active": true,
+    "name": "Nhà hàng Ngon",
+    "description": "Nhà hàng chuyên các món ăn truyền thống Việt Nam từ Bắc đến Nam.",
+    "location": "160 Pasteur, Quận 1, TP.HCM",
+    "user": 11,
+    "image": "image/upload/v1747837938/rwidbbskyclhsjqqmbbl.jpg",
+    "price_per_km": "5000.00"
+  }
+},
+{
+  "model": "store.restaurant",
+  "pk": 6,
+  "fields": {
+    "created_at": "2025-04-07T11:23:40.824Z",
+    "updated_at": "2025-05-21T14:34:55.054Z",
+    "active": true,
+    "name": "Cục Gạch Quán",
+    "description": "Nhà hàng Việt Nam truyền thống với không gian hoài cổ.",
+    "location": "10 Đặng Tất, Phường Tân Định, Quận 1, TP.HCM",
+    "user": 7,
+    "image": "image/upload/v1747838095/pclqsbrvd4omgoyp2aqt.jpg",
+    "price_per_km": "5000.00"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 1,
+  "fields": {
+    "created_at": "2025-03-22T12:00:00Z",
+    "updated_at": "2025-05-21T16:52:57.449Z",
+    "active": true,
+    "name": "Món Hấp",
+    "icon": "image/upload/v1747846379/uoailvkmy7lo38stmwcq.png"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 2,
+  "fields": {
+    "created_at": "2025-03-22T12:00:00Z",
+    "updated_at": "2025-05-21T16:52:59.637Z",
+    "active": true,
+    "name": "Lẩu",
+    "icon": "image/upload/v1747846379/xaruvtbktmurouszmysa.jpg"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 3,
+  "fields": {
+    "created_at": "2025-05-21T16:53:46.447Z",
+    "updated_at": "2025-05-21T16:53:46.447Z",
+    "active": true,
+    "name": "Kem",
+    "icon": "image/upload/v1747846427/jffbe7yekndejlgeuhvi.jpg"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 4,
+  "fields": {
+    "created_at": "2025-05-21T16:54:06.180Z",
+    "updated_at": "2025-05-21T16:54:06.180Z",
+    "active": true,
+    "name": "Nướng",
+    "icon": "image/upload/v1747846447/ofefgkxzntdobk96cvil.jpg"
+  }
+},
+{
+  "model": "store.category",
+  "pk": 5,
+  "fields": {
+    "created_at": "2025-05-21T16:54:22.123Z",
+    "updated_at": "2025-05-21T16:54:22.123Z",
+    "active": true,
+    "name": "Tráng Miệng",
+    "icon": "image/upload/v1747846462/nhebkhim7msgcrpt2m9u.jpg"
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 3,
+  "fields": {
+    "created_at": "2025-05-11T08:31:09.853Z",
+    "updated_at": "2025-05-11T08:31:09.853Z",
+    "active": true,
+    "restaurant": 3,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 4,
+  "fields": {
+    "created_at": "2025-05-11T08:31:15.917Z",
+    "updated_at": "2025-05-11T08:31:15.917Z",
+    "active": true,
+    "restaurant": 3,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 5,
+  "fields": {
+    "created_at": "2025-05-11T08:31:21.421Z",
+    "updated_at": "2025-05-11T08:31:21.421Z",
+    "active": true,
+    "restaurant": 3,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 6,
+  "fields": {
+    "created_at": "2025-05-13T00:51:55.798Z",
+    "updated_at": "2025-05-13T00:51:55.798Z",
+    "active": true,
+    "restaurant": 4,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 7,
+  "fields": {
+    "created_at": "2025-05-13T00:51:55.831Z",
+    "updated_at": "2025-05-13T00:51:55.831Z",
+    "active": true,
+    "restaurant": 5,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 8,
+  "fields": {
+    "created_at": "2025-05-13T00:51:55.835Z",
+    "updated_at": "2025-05-13T00:51:55.835Z",
+    "active": true,
+    "restaurant": 6,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 9,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.809Z",
+    "updated_at": "2025-05-13T00:53:27.809Z",
+    "active": true,
+    "restaurant": 4,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 10,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.831Z",
+    "updated_at": "2025-05-13T00:53:27.831Z",
+    "active": true,
+    "restaurant": 5,
+    "category": 1
+  }
+},
+{
+  "model": "store.menu",
+  "pk": 11,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.834Z",
+    "updated_at": "2025-05-13T00:53:27.834Z",
+    "active": true,
+    "restaurant": 6,
+    "category": 1
+  }
+},
+{
+  "model": "store.food",
+  "pk": 3,
+  "fields": {
+    "created_at": "2025-05-11T08:33:13.539Z",
+    "updated_at": "2025-05-21T17:07:17.522Z",
+    "active": true,
+    "name": "Sủi cảo",
+    "price": "400000",
+    "menu": 3,
+    "category": 1,
+    "discount": "50.00",
+    "image": "image/upload/v1747838258/kmqp2pdtsrcsjdxwyw0a.png",
+    "description": "Mì dai xào cùng tôm, mực và rau củ, đậm đà hương vị biển cả."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 4,
+  "fields": {
+    "created_at": "2025-05-11T08:33:13.564Z",
+    "updated_at": "2025-05-21T17:05:26.671Z",
+    "active": true,
+    "name": "Bò lúc lắc sốt tiêu đen",
+    "price": "250000",
+    "menu": 3,
+    "category": 4,
+    "discount": "10.00",
+    "image": "image/upload/v1747838275/n8pgc6uo33if1utwc39h.jpg",
+    "description": "Thịt bò mềm được xào chín tới với sốt tiêu đen đậm đà, thơm ngon hấp dẫn."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 5,
+  "fields": {
+    "created_at": "2025-05-11T08:33:16.404Z",
+    "updated_at": "2025-05-21T17:06:06.428Z",
+    "active": true,
+    "name": "Cơm chiên dương châu",
+    "price": "120000",
+    "menu": 3,
+    "category": 5,
+    "discount": "5.00",
+    "image": "image/upload/v1747838354/ahekqpmq7cdl3h9ppuic.jpg",
+    "description": "Món cơm chiên nổi tiếng với trứng, lạp xưởng, tôm và rau củ, đậm vị Trung Hoa."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 6,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.814Z",
+    "updated_at": "2025-05-21T17:06:21.906Z",
+    "active": true,
+    "name": "Gà rán mật ong",
+    "price": "180000",
+    "menu": 9,
+    "category": 4,
+    "discount": "20.00",
+    "image": "image/upload/v1747838461/pjnhswsy2g4kwfo7vxsh.jpg",
+    "description": "Gà rán giòn rụm bên ngoài, mềm mọng bên trong, phủ lớp mật ong ngọt dịu bắt vị."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 7,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.826Z",
+    "updated_at": "2025-05-21T17:07:36.828Z",
+    "active": true,
+    "name": "Sườn nướng BBQ",
+    "price": "220000",
+    "menu": 9,
+    "category": 1,
+    "discount": "15.00",
+    "image": "image/upload/v1747838484/qttnslinwhiqfdrhwf42.jpg",
+    "description": "Mì dai xào cùng tôm, mực và rau củ, đậm đà hương vị biển cả."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 8,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.828Z",
+    "updated_at": "2025-05-21T17:06:44.926Z",
+    "active": true,
+    "name": "Mì xào hải sản",
+    "price": "150000",
+    "menu": 9,
+    "category": 1,
+    "discount": "10.00",
+    "image": "image/upload/v1747838637/qx1k3kyr86vnqtru7kli.jpg",
+    "description": "Mì dai xào cùng tôm, mực và rau củ, đậm đà hương vị biển cả."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 9,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.832Z",
+    "updated_at": "2025-05-21T17:06:27.250Z",
+    "active": true,
+    "name": "Gà rán mật ong",
+    "price": "180000",
+    "menu": 10,
+    "category": 4,
+    "discount": "20.00",
+    "image": "image/upload/v1747838550/rz4iuizbilfni3jgabkt.jpg",
+    "description": "Gà rán giòn rụm bên ngoài, mềm mọng bên trong, phủ lớp mật ong ngọt dịu bắt vị."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 10,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.832Z",
+    "updated_at": "2025-05-21T17:07:41.402Z",
+    "active": true,
+    "name": "Sườn nướng BBQ",
+    "price": "220000",
+    "menu": 10,
+    "category": 1,
+    "discount": "15.00",
+    "image": "image/upload/v1747838607/ttmswq5o4qvmzf9j5qhd.jpg",
+    "description": "Mì dai xào cùng tôm, mực và rau củ, đậm đà hương vị biển cả."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 11,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.834Z",
+    "updated_at": "2025-05-21T17:06:49.391Z",
+    "active": true,
+    "name": "Mì xào hải sản",
+    "price": "150000",
+    "menu": 10,
+    "category": 1,
+    "discount": "10.00",
+    "image": "image/upload/v1747839035/sa9sikpzyoormngdfs9w.jpg",
+    "description": "Mì dai xào cùng tôm, mực và rau củ, đậm đà hương vị biển cả."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 12,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.835Z",
+    "updated_at": "2025-05-21T17:06:31.176Z",
+    "active": true,
+    "name": "Gà rán mật ong",
+    "price": "180000",
+    "menu": 11,
+    "category": 4,
+    "discount": "20.00",
+    "image": "image/upload/v1747839068/gsfvrbw0h6rentabvmpl.jpg",
+    "description": "Gà rán giòn rụm bên ngoài, mềm mọng bên trong, phủ lớp mật ong ngọt dịu bắt vị."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 13,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.836Z",
+    "updated_at": "2025-05-21T17:07:46.361Z",
+    "active": true,
+    "name": "Sườn nướng BBQ",
+    "price": "220000",
+    "menu": 11,
+    "category": 1,
+    "discount": "15.00",
+    "image": "image/upload/v1747838991/srixxakuad38k8ub8ngt.jpg",
+    "description": "Mì dai xào cùng tôm, mực và rau củ, đậm đà hương vị biển cả."
+  }
+},
+{
+  "model": "store.food",
+  "pk": 14,
+  "fields": {
+    "created_at": "2025-05-13T00:53:27.838Z",
+    "updated_at": "2025-05-21T17:07:04.076Z",
+    "active": true,
+    "name": "Mì xào hải sản",
+    "price": "150000",
+    "menu": 11,
+    "category": 1,
+    "discount": "10.00",
+    "image": "image/upload/v1747839016/rxmjsgguxrdpcqzaxo5o.jpg",
+    "description": "Mì dai xào cùng tôm, mực và rau củ, đậm đà hương vị biển cả."
+  }
+},
+{
+  "model": "store.review",
+  "pk": 9,
+  "fields": {
+    "created_at": "2025-05-11T08:40:17.612Z",
+    "updated_at": "2025-05-11T08:40:17.612Z",
+    "active": true,
+    "user": 8,
+    "restaurant": 3,
+    "food": 3,
+    "rating": 5,
+    "comment": "Không hài lòng lắm, hơi mặn."
+  }
+},
+{
+  "model": "store.review",
+  "pk": 10,
+  "fields": {
+    "created_at": "2025-05-11T08:40:17.612Z",
+    "updated_at": "2025-05-11T08:40:17.612Z",
+    "active": true,
+    "user": 8,
+    "restaurant": 3,
+    "food": 5,
+    "rating": 3,
+    "comment": "Giá hợp lý, món ăn chất lượng."
+  }
+},
+{
+  "model": "store.review",
+  "pk": 11,
+  "fields": {
+    "created_at": "2025-05-11T08:40:17.612Z",
+    "updated_at": "2025-05-11T08:40:17.612Z",
+    "active": true,
+    "user": 9,
+    "restaurant": 3,
+    "food": 5,
+    "rating": 4,
+    "comment": "Trang trí đẹp, nhưng vị chưa đặc biệt."
+  }
+},
+{
+  "model": "store.review",
+  "pk": 12,
+  "fields": {
+    "created_at": "2025-05-11T08:40:17.612Z",
+    "updated_at": "2025-05-11T08:40:17.612Z",
+    "active": true,
+    "user": 9,
+    "restaurant": 3,
+    "food": 4,
+    "rating": 3,
+    "comment": "Rất ngon, sẽ quay lại!"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 13,
+  "fields": {
+    "created_at": "2025-05-21T13:52:06.904Z",
+    "updated_at": "2025-05-21T13:52:06.904Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 14,
+  "fields": {
+    "created_at": "2025-05-21T13:52:11.848Z",
+    "updated_at": "2025-05-21T13:52:11.848Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 15,
+  "fields": {
+    "created_at": "2025-05-21T13:52:12.303Z",
+    "updated_at": "2025-05-21T13:52:12.303Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 16,
+  "fields": {
+    "created_at": "2025-05-21T13:52:12.860Z",
+    "updated_at": "2025-05-21T13:52:12.860Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 17,
+  "fields": {
+    "created_at": "2025-05-21T13:52:13.056Z",
+    "updated_at": "2025-05-21T13:52:13.056Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 18,
+  "fields": {
+    "created_at": "2025-05-21T13:52:13.189Z",
+    "updated_at": "2025-05-21T13:52:13.189Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 19,
+  "fields": {
+    "created_at": "2025-05-21T13:52:13.354Z",
+    "updated_at": "2025-05-21T13:52:13.354Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 20,
+  "fields": {
+    "created_at": "2025-05-21T13:52:13.963Z",
+    "updated_at": "2025-05-21T13:52:13.963Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 21,
+  "fields": {
+    "created_at": "2025-05-21T13:52:14.503Z",
+    "updated_at": "2025-05-21T13:52:14.503Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 22,
+  "fields": {
+    "created_at": "2025-05-21T13:52:32.511Z",
+    "updated_at": "2025-05-21T13:52:32.511Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 23,
+  "fields": {
+    "created_at": "2025-05-21T13:52:33.536Z",
+    "updated_at": "2025-05-21T13:52:33.536Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 24,
+  "fields": {
+    "created_at": "2025-05-21T13:52:34.224Z",
+    "updated_at": "2025-05-21T13:52:34.224Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 25,
+  "fields": {
+    "created_at": "2025-05-21T13:52:34.332Z",
+    "updated_at": "2025-05-21T13:52:34.332Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 26,
+  "fields": {
+    "created_at": "2025-05-21T13:52:34.576Z",
+    "updated_at": "2025-05-21T13:52:34.576Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 27,
+  "fields": {
+    "created_at": "2025-05-21T13:52:35.141Z",
+    "updated_at": "2025-05-21T13:52:35.142Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 28,
+  "fields": {
+    "created_at": "2025-05-21T13:52:35.241Z",
+    "updated_at": "2025-05-21T13:52:35.241Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 29,
+  "fields": {
+    "created_at": "2025-05-21T13:52:35.593Z",
+    "updated_at": "2025-05-21T13:52:35.593Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 30,
+  "fields": {
+    "created_at": "2025-05-21T13:52:35.644Z",
+    "updated_at": "2025-05-21T13:52:35.644Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 31,
+  "fields": {
+    "created_at": "2025-05-21T13:52:52.908Z",
+    "updated_at": "2025-05-21T13:52:52.908Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 32,
+  "fields": {
+    "created_at": "2025-05-21T13:52:53.582Z",
+    "updated_at": "2025-05-21T13:52:53.582Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 33,
+  "fields": {
+    "created_at": "2025-05-21T13:52:53.999Z",
+    "updated_at": "2025-05-21T13:52:53.999Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 34,
+  "fields": {
+    "created_at": "2025-05-21T13:53:50.850Z",
+    "updated_at": "2025-05-21T13:53:50.850Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 35,
+  "fields": {
+    "created_at": "2025-05-21T13:53:52.831Z",
+    "updated_at": "2025-05-21T13:53:52.831Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 36,
+  "fields": {
+    "created_at": "2025-05-21T13:54:16.244Z",
+    "updated_at": "2025-05-21T13:54:16.244Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 37,
+  "fields": {
+    "created_at": "2025-05-21T13:54:17.646Z",
+    "updated_at": "2025-05-21T13:54:17.646Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 38,
+  "fields": {
+    "created_at": "2025-05-21T13:54:38.505Z",
+    "updated_at": "2025-05-21T13:54:38.505Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 39,
+  "fields": {
+    "created_at": "2025-05-21T13:56:03.977Z",
+    "updated_at": "2025-05-21T13:56:03.977Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 40,
+  "fields": {
+    "created_at": "2025-05-21T13:57:08.245Z",
+    "updated_at": "2025-05-21T13:57:08.245Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 41,
+  "fields": {
+    "created_at": "2025-05-21T13:58:40.115Z",
+    "updated_at": "2025-05-21T13:58:40.115Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "hahaa"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 42,
+  "fields": {
+    "created_at": "2025-05-21T13:59:05.011Z",
+    "updated_at": "2025-05-21T13:59:05.011Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "hahaa"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 43,
+  "fields": {
+    "created_at": "2025-05-21T13:59:08.533Z",
+    "updated_at": "2025-05-21T13:59:08.533Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "hahaa"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 44,
+  "fields": {
+    "created_at": "2025-05-21T13:59:34.575Z",
+    "updated_at": "2025-05-21T13:59:34.575Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaa\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 45,
+  "fields": {
+    "created_at": "2025-05-21T13:59:42.238Z",
+    "updated_at": "2025-05-21T13:59:42.238Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaaggg\n\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 46,
+  "fields": {
+    "created_at": "2025-05-21T14:00:20.122Z",
+    "updated_at": "2025-05-21T14:00:20.122Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaaggg\n\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 47,
+  "fields": {
+    "created_at": "2025-05-21T14:00:35.604Z",
+    "updated_at": "2025-05-21T14:00:35.604Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaaggg\n\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 48,
+  "fields": {
+    "created_at": "2025-05-21T14:00:38.802Z",
+    "updated_at": "2025-05-21T14:00:38.802Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaaggg\n\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 49,
+  "fields": {
+    "created_at": "2025-05-21T14:01:04.687Z",
+    "updated_at": "2025-05-21T14:01:04.687Z",
+    "active": true,
+    "user": 44,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhaaggg\nGgg\n\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 50,
+  "fields": {
+    "created_at": "2025-05-21T14:02:00.669Z",
+    "updated_at": "2025-05-21T14:02:00.669Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhhjjff\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 51,
+  "fields": {
+    "created_at": "2025-05-21T14:02:14.524Z",
+    "updated_at": "2025-05-21T14:02:14.524Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Hhrloo\n"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 52,
+  "fields": {
+    "created_at": "2025-05-21T14:02:43.983Z",
+    "updated_at": "2025-05-21T14:02:43.983Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 5,
+    "food": null,
+    "rating": 5,
+    "comment": "Chao bạn"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 53,
+  "fields": {
+    "created_at": "2025-05-21T14:13:29.661Z",
+    "updated_at": "2025-05-21T14:13:29.661Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Chào bạn nha"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 54,
+  "fields": {
+    "created_at": "2025-05-21T14:14:06.193Z",
+    "updated_at": "2025-05-21T14:14:06.193Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Chào bạn nha"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 55,
+  "fields": {
+    "created_at": "2025-05-21T15:43:55.419Z",
+    "updated_at": "2025-05-21T15:43:55.419Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 1,
+    "comment": "Hhhh"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 56,
+  "fields": {
+    "created_at": "2025-05-21T15:48:05.067Z",
+    "updated_at": "2025-05-21T15:48:05.067Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 1,
+    "comment": "Hello"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 57,
+  "fields": {
+    "created_at": "2025-05-21T15:49:03.419Z",
+    "updated_at": "2025-05-21T15:49:03.419Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 1,
+    "comment": "Helio1234"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 58,
+  "fields": {
+    "created_at": "2025-05-21T15:49:56.419Z",
+    "updated_at": "2025-05-21T15:49:56.419Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 1,
+    "comment": "Tấn đang ở draya"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 59,
+  "fields": {
+    "created_at": "2025-05-21T15:50:47.047Z",
+    "updated_at": "2025-05-21T15:50:47.047Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 1,
+    "comment": "Đang thử nha"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 60,
+  "fields": {
+    "created_at": "2025-05-21T15:52:13.124Z",
+    "updated_at": "2025-05-21T15:52:13.124Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 1,
+    "comment": "Helioii"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 61,
+  "fields": {
+    "created_at": "2025-05-21T15:53:29.677Z",
+    "updated_at": "2025-05-21T15:53:29.677Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Heliif"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 62,
+  "fields": {
+    "created_at": "2025-05-21T15:54:29.054Z",
+    "updated_at": "2025-05-21T15:54:29.054Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Hhh"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 63,
+  "fields": {
+    "created_at": "2025-05-21T15:55:47.695Z",
+    "updated_at": "2025-05-21T15:55:47.695Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Hhh"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 64,
+  "fields": {
+    "created_at": "2025-05-21T15:56:00.909Z",
+    "updated_at": "2025-05-21T15:56:00.909Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Hhh"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 65,
+  "fields": {
+    "created_at": "2025-05-21T15:56:24.004Z",
+    "updated_at": "2025-05-21T15:56:24.004Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Sggsd"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 66,
+  "fields": {
+    "created_at": "2025-05-21T15:56:40.473Z",
+    "updated_at": "2025-05-21T15:56:40.473Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Chào vạn"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 67,
+  "fields": {
+    "created_at": "2025-05-21T15:56:56.304Z",
+    "updated_at": "2025-05-21T15:56:56.304Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Món ăn ngon nha"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 68,
+  "fields": {
+    "created_at": "2025-05-21T15:57:04.402Z",
+    "updated_at": "2025-05-21T15:57:04.402Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Hshs"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 69,
+  "fields": {
+    "created_at": "2025-05-21T15:57:11.120Z",
+    "updated_at": "2025-05-21T15:57:11.120Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Uiwbf"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 70,
+  "fields": {
+    "created_at": "2025-05-21T15:57:17.356Z",
+    "updated_at": "2025-05-21T15:57:17.356Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "2785bfggg"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 71,
+  "fields": {
+    "created_at": "2025-05-21T15:57:30.520Z",
+    "updated_at": "2025-05-21T15:57:30.520Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Hfhfhf"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 72,
+  "fields": {
+    "created_at": "2025-05-21T15:59:01.720Z",
+    "updated_at": "2025-05-21T15:59:01.720Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Chào nha"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 73,
+  "fields": {
+    "created_at": "2025-05-21T15:59:28.803Z",
+    "updated_at": "2025-05-21T15:59:28.804Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Hshsh"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 74,
+  "fields": {
+    "created_at": "2025-05-21T16:02:30.154Z",
+    "updated_at": "2025-05-21T16:02:30.154Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 4,
+    "food": null,
+    "rating": 5,
+    "comment": "yum yum"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 75,
+  "fields": {
+    "created_at": "2025-05-21T16:03:07.405Z",
+    "updated_at": "2025-05-21T16:03:07.405Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Heloo"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 76,
+  "fields": {
+    "created_at": "2025-05-21T16:05:18.928Z",
+    "updated_at": "2025-05-21T16:05:18.928Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 6,
+    "rating": 5,
+    "comment": "Hdjfjjf"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 77,
+  "fields": {
+    "created_at": "2025-05-21T16:06:49.563Z",
+    "updated_at": "2025-05-21T16:06:49.563Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 4,
+    "food": null,
+    "rating": 5,
+    "comment": "yum yum"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 78,
+  "fields": {
+    "created_at": "2025-05-21T16:18:22.861Z",
+    "updated_at": "2025-05-21T16:18:22.861Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 4,
+    "food": null,
+    "rating": 5,
+    "comment": "yum yum"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 79,
+  "fields": {
+    "created_at": "2025-05-21T16:19:26.108Z",
+    "updated_at": "2025-05-21T16:19:26.108Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 4,
+    "food": null,
+    "rating": 5,
+    "comment": "yum yum"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 80,
+  "fields": {
+    "created_at": "2025-05-21T16:22:10.285Z",
+    "updated_at": "2025-05-21T16:22:10.285Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 4,
+    "food": null,
+    "rating": 5,
+    "comment": "yum yum"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 81,
+  "fields": {
+    "created_at": "2025-05-21T16:46:22.917Z",
+    "updated_at": "2025-05-21T16:46:22.917Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Helio"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 82,
+  "fields": {
+    "created_at": "2025-05-21T16:47:04.973Z",
+    "updated_at": "2025-05-21T16:47:04.973Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Hahaa"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 83,
+  "fields": {
+    "created_at": "2025-05-21T16:59:52.905Z",
+    "updated_at": "2025-05-21T16:59:52.905Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Tấn"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 84,
+  "fields": {
+    "created_at": "2025-05-21T17:11:30.237Z",
+    "updated_at": "2025-05-21T17:11:30.237Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Alo alo"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 85,
+  "fields": {
+    "created_at": "2025-05-21T17:11:45.731Z",
+    "updated_at": "2025-05-21T17:11:45.731Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 4,
+    "rating": 5,
+    "comment": "Ngon nhaaaaa"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 86,
+  "fields": {
+    "created_at": "2025-05-21T17:17:18.959Z",
+    "updated_at": "2025-05-21T17:17:18.959Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 4,
+    "rating": 5,
+    "comment": "Heloo"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 87,
+  "fields": {
+    "created_at": "2025-05-21T17:18:30.770Z",
+    "updated_at": "2025-05-21T17:18:30.770Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 4,
+    "rating": 5,
+    "comment": "Hh"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 88,
+  "fields": {
+    "created_at": "2025-05-21T17:19:46.820Z",
+    "updated_at": "2025-05-21T17:19:46.820Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 4,
+    "rating": 5,
+    "comment": "Chào nha"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 89,
+  "fields": {
+    "created_at": "2025-05-21T17:20:11.901Z",
+    "updated_at": "2025-05-21T17:20:11.901Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 4,
+    "rating": 5,
+    "comment": "Chào bạn"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 90,
+  "fields": {
+    "created_at": "2025-05-21T17:20:30.158Z",
+    "updated_at": "2025-05-21T17:20:30.158Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 4,
+    "rating": 5,
+    "comment": "Tấn ở đây"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 91,
+  "fields": {
+    "created_at": "2025-05-21T17:21:46.530Z",
+    "updated_at": "2025-05-21T17:21:46.530Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 4,
+    "rating": 5,
+    "comment": "Ggggg"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 92,
+  "fields": {
+    "created_at": "2025-05-21T17:29:55.603Z",
+    "updated_at": "2025-05-21T17:29:55.603Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 5,
+    "rating": 5,
+    "comment": "Ngin nâ"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 93,
+  "fields": {
+    "created_at": "2025-05-21T17:30:16.702Z",
+    "updated_at": "2025-05-21T17:30:16.702Z",
+    "active": true,
+    "user": 3,
+    "restaurant": 3,
+    "food": null,
+    "rating": 5,
+    "comment": "Heloo"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 94,
+  "fields": {
+    "created_at": "2025-05-22T02:25:30.245Z",
+    "updated_at": "2025-05-22T02:25:30.245Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Heloo"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 95,
+  "fields": {
+    "created_at": "2025-05-22T02:32:20.034Z",
+    "updated_at": "2025-05-22T02:32:20.034Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Thahr cong"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 96,
+  "fields": {
+    "created_at": "2025-05-22T02:33:47.916Z",
+    "updated_at": "2025-05-22T02:33:47.916Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Ngon"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 97,
+  "fields": {
+    "created_at": "2025-05-22T02:34:41.355Z",
+    "updated_at": "2025-05-22T02:34:41.355Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 3,
+    "rating": 5,
+    "comment": "Tuyệt voè"
+  }
+},
+{
+  "model": "store.review",
+  "pk": 98,
+  "fields": {
+    "created_at": "2025-05-22T02:35:08.863Z",
+    "updated_at": "2025-05-22T02:35:08.863Z",
+    "active": true,
+    "user": 3,
+    "restaurant": null,
+    "food": 5,
+    "rating": 5,
+    "comment": "Ngon lắm ta"
+  }
+}
+]
