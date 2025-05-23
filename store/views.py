@@ -290,3 +290,16 @@ class ReviewViewSet(viewsets.ModelViewSet):
 		if self.action in ["destroy", "update", "create"]:
 			return [perms.OwnerAuthenticated()]
 		return [permissions.AllowAny()]
+
+
+class PaymentViewSet(viewsets.ViewSet, generics.CreateAPIView):
+	permission_classes = [permissions.IsAuthenticated]
+
+	def get_permissions(self):
+		if self.action in ["create"]:
+			return [permissions.IsAuthenticated()]
+		return [permissions.AllowAny()]
+
+	def create(self, request):
+		# Xử lý logic thanh toán tại đây
+		pass
