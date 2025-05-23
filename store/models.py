@@ -16,9 +16,6 @@ class User(AbstractUser):
 	created_at = models.DateTimeField(auto_now_add=True)
 	avatar = CloudinaryField('avatar', null=True, blank=True)
 
-	def __str__(self):
-		return self.username
-
 	def save(self, *args, **kwargs):
 		"""Nếu role là restaurant và user đang được tạo, thì đặt chưa kích hoạt."""
 		is_new = self.pk is None  # pk sẽ là None nếu user chưa được lưu lần nào
