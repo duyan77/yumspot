@@ -15,7 +15,8 @@ from .paginators import ReviewPaginator
 from .serializers import RestaurantSerializer
 
 
-class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView):
+class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,
+						generics.RetrieveAPIView):
 	queryset = Restaurant.objects.filter(
 		active=True).all()
 	serializer_class = serializers.RestaurantSerializer
@@ -92,9 +93,8 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
 		if not created:
 			like.active = not like.active
 			like.save()
-		return Response(serializers.RestaurantDetailSerializer(self.get_object(),
-															   context={'request': request}).data,
-						status=status.HTTP_200_OK)
+		return Response(serializers.RestaurantDetailSerializer(
+			self.get_object(), context={'request': request}).data)
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
