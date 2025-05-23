@@ -92,7 +92,8 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
 		if not created:
 			like.active = not like.active
 			like.save()
-		return Response(serializers.RestaurantDetailSerializer(self.get_object()).data,
+		return Response(serializers.RestaurantDetailSerializer(self.get_object(),
+															   context={'request': request}).data,
 						status=status.HTTP_200_OK)
 
 

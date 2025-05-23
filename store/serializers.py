@@ -45,7 +45,8 @@ class RestaurantSerializer(serializers.ModelSerializer):
 class RestaurantDetailSerializer(serializers.ModelSerializer):
 	liked = serializers.SerializerMethodField()
 
-	def get_liked(self, request, restaurant):
+	def get_liked(self, restaurant):
+		request = self.context.get('request')
 		if request.user.is_authenticated:
 			return restaurant.userlikerestaurant_set.filter(active=True).exists()
 		return False
