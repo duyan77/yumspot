@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from store import serializers, paginators, perms
-from .models import Restaurant, User, Category, Food, Review
+from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant
 from .paginators import ReviewPaginator
 from .serializers import RestaurantSerializer
 
@@ -33,7 +33,7 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
 		return queryset
 
 	def get_permissions(self):
-		if self.action == "add_review":
+		if self.action in ["add_review", "like_restaurant"]:
 			return [permissions.IsAuthenticated()]
 		elif self.action == "create":
 			return [perms.IsRestaurantOwner(), perms.OwnerAuthenticated()]
@@ -84,6 +84,16 @@ class RetaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAP
 		# Nếu không có phân trang, trả về tất cả kết quả
 		serializer = serializers.ReviewSerializer(reviews, many=True)
 		return Response(serializer.data)
+
+	@action(methods=['post'], url_path="like", detail=True)
+	def like_restaurant(self, request, pk):
+		like, created = UserLikeRestaurant.objects.get_or_create(user=request.user,
+																 restaurant=self.get_object())
+		if not created:
+			like.active = not like.active
+			like.save()
+		return Response(serializers.RestaurantDetailSerializer(self.get_object()).data,
+						status=status.HTTP_200_OK)
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):

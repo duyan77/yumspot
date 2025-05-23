@@ -69,7 +69,6 @@ cloudinary.config(
 )
 
 DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
 # settings.py
 
 from django.templatetags.static import static

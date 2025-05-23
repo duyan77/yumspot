@@ -3,11 +3,13 @@ import json
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
+from django.db import models
 from django.template.response import TemplateResponse
 from django.urls import path
 from django.utils.timezone import now, timedelta, localtime
 from multi_captcha_admin.admin import MultiCaptchaAdminAuthenticationForm
 from unfold.admin import ModelAdmin
+from unfold.contrib.forms.widgets import WysiwygWidget
 from unfold.forms import AdminPasswordChangeForm, UserCreationForm, UserChangeForm
 from unfold.sites import UnfoldAdminSite
 
@@ -129,6 +131,12 @@ class RestaurantAdmin(ModelAdmin):
 	change_form_show_cancel_button = True
 	list_filter_sheet = True
 	ordering = ['id']
+
+	formfield_overrides = {
+		models.TextField: {
+			"widget": WysiwygWidget,
+		}
+	}
 
 
 @admin.register(Food, site=custom_admin_site)

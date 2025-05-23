@@ -6,6 +6,7 @@ cloudinary==1.43.0
 cryptography==44.0.2
 Django==5.1.7
 django-cloudinary-storage==0.3.0
+django-js-asset==3.1.2
 django-modeltranslation==0.19.13
 django-multi-captcha-admin==2.0.0
 django-oauth-toolkit==3.0.1
