@@ -52,6 +52,7 @@ class RestaurantDetailSerializer(RestaurantSerializer):
 		return False
 
 	class Meta:
+		model = RestaurantSerializer.Meta.model
 		fields = RestaurantSerializer.Meta.fields + ['liked']
 
 
