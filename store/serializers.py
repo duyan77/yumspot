@@ -44,6 +44,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 
 class RestaurantDetailSerializer(RestaurantSerializer):
 	liked = serializers.SerializerMethodField()
+	followed = serializers.SerializerMethodField()
 
 	def get_liked(self, restaurant):
 		request = self.context.get('request')
@@ -51,9 +52,15 @@ class RestaurantDetailSerializer(RestaurantSerializer):
 			return restaurant.userlikerestaurant_set.filter(active=True).exists()
 		return False
 
+	def get_followed(self, restaurant):
+		request = self.context.get('request')
+		if request and request.user.is_authenticated:
+			return restaurant.follow_set.filter(active=True).exists()
+		return False
+
 	class Meta:
 		model = RestaurantSerializer.Meta.model
-		fields = RestaurantSerializer.Meta.fields + ['liked']
+		fields = RestaurantSerializer.Meta.fields + ['liked', 'followed']
 
 
 class UserSerializer(serializers.ModelSerializer):

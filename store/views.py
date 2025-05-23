@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from store import serializers, paginators, perms
-from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant
+from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant, Follow
 from .paginators import ReviewPaginator
 from .serializers import RestaurantSerializer
 
@@ -86,15 +86,26 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 		serializer = serializers.ReviewSerializer(reviews, many=True)
 		return Response(serializer.data)
 
+	def toggle_relationship(self, model_class, user, restaurant):
+		obj, created = model_class.objects.get_or_create(user=user, restaurant=restaurant)
+		if not created:
+			obj.active = not obj.active
+			obj.save()
+		return obj
+
 	@action(methods=['post'], url_path="like", detail=True)
 	def like_restaurant(self, request, pk):
-		like, created = UserLikeRestaurant.objects.get_or_create(user=request.user,
-																 restaurant=self.get_object())
-		if not created:
-			like.active = not like.active
-			like.save()
-		return Response(serializers.RestaurantDetailSerializer(
-			self.get_object(), context={'request': request}).data)
+		restaurant = self.get_object()
+		self.toggle_relationship(UserLikeRestaurant, request.user, restaurant)
+		return Response(
+			serializers.RestaurantDetailSerializer(restaurant, context={'request': request}).data)
+
+	@action(methods=['post'], url_path="follow", detail=True)
+	def follow_restaurant(self, request, pk):
+		restaurant = self.get_object()
+		self.toggle_relationship(Follow, request.user, restaurant)
+		return Response(
+			serializers.RestaurantDetailSerializer(restaurant, context={'request': request}).data)
 
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
