@@ -107,6 +107,18 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 		return Response(
 			serializers.RestaurantDetailSerializer(restaurant, context={'request': request}).data)
 
+	@action(methods=['get'], url_path="liked-user", detail=True)
+	def get_liked_user(self, request, pk):
+		# Lấy nhà hàng theo pk
+		restaurant = self.get_object()
+
+		# Lấy tất cả các người dùng đã thích nhà hàng này
+		users = User.objects.filter(userlikerestaurant__restaurant=restaurant).values_list(
+			'id', flat=True
+		)
+
+		return Response(users)
+
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
 	queryset = User.objects.filter(is_active=True).all()
