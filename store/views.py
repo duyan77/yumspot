@@ -18,7 +18,7 @@ from .serializers import RestaurantSerializer
 class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,
 						generics.RetrieveAPIView):
 	queryset = Restaurant.objects.filter(
-		active=True).all()
+		active=True)
 	serializer_class = serializers.RestaurantSerializer
 	pagination_class = paginators.RestaurantPaginator
 
@@ -36,8 +36,6 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	def get_permissions(self):
 		if self.action in ["add_review", "like_restaurant"]:
 			return [permissions.IsAuthenticated()]
-		elif self.action == "create":
-			return [perms.IsRestaurantOwner(), perms.OwnerAuthenticated()]
 		return [permissions.AllowAny()]
 
 	@action(methods=['get'], url_path="foods", detail=True)
