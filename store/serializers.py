@@ -4,27 +4,6 @@ from rest_framework import serializers
 from .models import Restaurant, User, Review, Category, Food, Payment, Menu
 
 
-class RestaurantDetailSerializer(RestaurantSerializer):
-	liked = serializers.SerializerMethodField()
-	followed = serializers.SerializerMethodField()
-
-	def get_liked(self, restaurant):
-		request = self.context.get('request')
-		if request and request.user.is_authenticated:
-			return restaurant.userlikerestaurant_set.filter(active=True).exists()
-		return False
-
-	def get_followed(self, restaurant):
-		request = self.context.get('request')
-		if request and request.user.is_authenticated:
-			return restaurant.follow_set.filter(active=True).exists()
-		return False
-
-	class Meta:
-		model = RestaurantSerializer.Meta.model
-		fields = RestaurantSerializer.Meta.fields + ['liked', 'followed']
-
-
 class UserSerializer(serializers.ModelSerializer):
 	avatar = serializers.SerializerMethodField()
 
@@ -97,6 +76,27 @@ class RestaurantSerializer(serializers.ModelSerializer):
 		user = User.objects.create_user(**user_data)
 		restaurant = Restaurant.objects.create(user=user, **validated_data)
 		return restaurant
+
+
+class RestaurantDetailSerializer(RestaurantSerializer):
+	liked = serializers.SerializerMethodField()
+	followed = serializers.SerializerMethodField()
+
+	def get_liked(self, restaurant):
+		request = self.context.get('request')
+		if request and request.user.is_authenticated:
+			return restaurant.userlikerestaurant_set.filter(active=True).exists()
+		return False
+
+	def get_followed(self, restaurant):
+		request = self.context.get('request')
+		if request and request.user.is_authenticated:
+			return restaurant.follow_set.filter(active=True).exists()
+		return False
+
+	class Meta:
+		model = RestaurantSerializer.Meta.model
+		fields = RestaurantSerializer.Meta.fields + ['liked', 'followed']
 
 
 class CategorySerializer(serializers.ModelSerializer):
