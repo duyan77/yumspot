@@ -8,12 +8,12 @@ class RestaurantSerializer(serializers.ModelSerializer):
 	rating = serializers.SerializerMethodField()
 	reviews = serializers.SerializerMethodField()
 	image = serializers.SerializerMethodField()
-	categoríe = serializers.SerializerMethodField()
+	categories = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Restaurant
 		fields = ['id', 'name', 'location', 'rating', 'reviews', 'image', 'price_per_km',
-				  'description']
+				  'description', 'categories']
 
 	def get_rating(self, res):
 		food_reviews = res.review_set.all()
