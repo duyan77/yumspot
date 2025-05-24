@@ -267,12 +267,3 @@ CSRF_TRUSTED_ORIGINS = [
 
 # 'CLIENT_ID': jyt7S9M6k8NssDHoNQNyLgbeFJfi5qnKElHMeJxp
 # 'CLIENT_SECRET': RT007jDkJEvDOMeWisC7Q03mTKe5YZIIe8BNfSVj9HyPoLaixMirYDPJ4VTl3bKlenZygkesFO8CDBIicRjLW2UHrLy6MANgjrZ3iRxJSNTMvq2rpzWvIFfnLwOj6CVk
-
-import os
-from dotenv import load_dotenv
-
-load_dotenv()
-
-STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
-STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
-stripe.api_key=os
