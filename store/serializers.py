@@ -33,7 +33,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 			return res.image.url
 		return None
 
-	def get_categoríe(self, res):
+	def get_categories(self, res):
 		categories = res.menu.category_set.all()
 		return CategorySerializer(categories, many=True).data
 
