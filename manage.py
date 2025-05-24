@@ -3,6 +3,10 @@
 import os
 import sys
 
+import logging
+
+logger = logging.getLogger('django')
+logger.debug('Test log từ manage.py hoặc wsgi.py')
 
 def main():
     """Run administrative tasks."""

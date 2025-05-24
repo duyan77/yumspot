@@ -8,6 +8,7 @@ class RestaurantSerializer(serializers.ModelSerializer):
 	rating = serializers.SerializerMethodField()
 	reviews = serializers.SerializerMethodField()
 	image = serializers.SerializerMethodField()
+	categoríe = serializers.SerializerMethodField()
 
 	class Meta:
 		model = Restaurant
@@ -31,6 +32,10 @@ class RestaurantSerializer(serializers.ModelSerializer):
 		if res.image:
 			return res.image.url
 		return None
+
+	def get_categoríe(self, res):
+		categories = res.menu.category_set.all()
+		return CategorySerializer(categories, many=True).data
 
 	def create(self, validated_data):
 		request = self.context.get('request')
