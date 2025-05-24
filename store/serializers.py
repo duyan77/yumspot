@@ -1,7 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 
-from .models import Restaurant, User, Review, Category, Food
+from .models import Restaurant, User, Review, Category, Food, Payment
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
@@ -172,3 +172,9 @@ class ReviewSerializer(serializers.ModelSerializer):
 	class Meta:
 		model = Review
 		fields = ['id', 'comment', 'created_at', 'updated_at', 'username', 'image']
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Payment
+		fields = '__all__'

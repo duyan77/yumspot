@@ -38,6 +38,7 @@ urlpatterns = [
 	# path('admin/', admin.site.urls),
 	path('admin/', custom_admin_site.urls),
 	path('', include('store.urls')),
+	path('', include('payment.urls')),
 	re_path(r'^swagger(?P<format>\.json|\.yaml)$',
 			schema_view.without_ui(cache_timeout=0),
 			name='schema-json'),

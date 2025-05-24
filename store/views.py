@@ -10,7 +10,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from store import serializers, paginators, perms
-from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant, Follow
+from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant, Follow, Payment
 from .paginators import ReviewPaginator
 from .serializers import RestaurantSerializer
 
@@ -292,8 +292,9 @@ class ReviewViewSet(viewsets.ModelViewSet):
 		return [permissions.AllowAny()]
 
 
-class PaymentViewSet(viewsets.ViewSet, generics.CreateAPIView):
-	permission_classes = [permissions.IsAuthenticated]
+class PaymentViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
+	queryset = Payment.objects.all()
+	serializer_class = serializers.PaymentSerializer
 
 	def get_permissions(self):
 		if self.action in ["create"]:

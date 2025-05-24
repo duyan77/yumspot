@@ -23,11 +23,13 @@ packaging==24.2
 pillow==11.2.1
 pycparser==2.22
 PyMySQL==1.1.1
+python-dotenv==1.1.0
 pytz==2025.2
 PyYAML==6.0.2
 requests==2.32.3
 six==1.17.0
 sqlparse==0.5.3
+stripe==12.1.0
 typing_extensions==4.13.2
 tzdata==2025.1
 uritemplate==4.1.1
