@@ -48,7 +48,7 @@ class Restaurant(BaseModel):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, limit_choices_to={
 		'is_active': True,
 		'role': 'restaurant'
-	}, verbose_name="Chủ Nhà Hàng")
+	}, verbose_name="Chủ Nhà Hàng", null=True, blank=True)
 	image = CloudinaryField('image', null=True, blank=True)
 	price_per_km = models.DecimalField(
 		max_digits=10,

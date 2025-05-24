@@ -4,51 +4,6 @@ from rest_framework import serializers
 from .models import Restaurant, User, Review, Category, Food, Payment, Menu
 
 
-class RestaurantSerializer(serializers.ModelSerializer):
-	rating = serializers.SerializerMethodField()
-	reviews = serializers.SerializerMethodField()
-	image = serializers.SerializerMethodField()
-	categories = serializers.SerializerMethodField()
-
-	class Meta:
-		model = Restaurant
-		fields = ['id', 'name', 'location', 'rating', 'reviews', 'image', 'price_per_km',
-				  'description', 'categories']
-
-	def get_rating(self, res):
-		food_reviews = res.review_set.all()
-		if food_reviews.exists():
-			avg = food_reviews.aggregate(models.Avg('rating'))['rating__avg']
-			return f"{avg:.1f}"
-		return "0.0"
-
-	def get_reviews(self, res):
-		count = res.review_set.count()
-		if count >= 1000:
-			return f"{count / 1000:.1f}k"
-		return str(count)
-
-	def get_image(self, res):
-		if res.image:
-			return res.image.url
-		return None
-
-	def get_categories(self, res):
-		menus = Menu.objects.filter(restaurant=res)
-		categories = Category.objects.filter(
-			id__in=menus.values_list('category_id', flat=True).distinct())
-		return CategorySerializer(categories, many=True).data
-
-	def create(self, validated_data):
-		request = self.context.get('request')
-		user = request.user if request else None
-		if not user:
-			raise serializers.ValidationError("User is required.")
-
-		restaurant = Restaurant.objects.create(user=user, **validated_data)
-		return restaurant
-
-
 class RestaurantDetailSerializer(RestaurantSerializer):
 	liked = serializers.SerializerMethodField()
 	followed = serializers.SerializerMethodField()
@@ -99,6 +54,49 @@ class UserSerializer(serializers.ModelSerializer):
 			user.avatar = avatar
 		user.save()
 		return user
+
+
+class RestaurantSerializer(serializers.ModelSerializer):
+	rating = serializers.SerializerMethodField()
+	reviews = serializers.SerializerMethodField()
+	image = serializers.SerializerMethodField()
+	categories = serializers.SerializerMethodField()
+	user = UserSerializer()
+
+	class Meta:
+		model = Restaurant
+		fields = ['id', 'name', 'location', 'rating', 'reviews', 'image', 'price_per_km',
+				  'description', 'categories', 'user']
+
+	def get_rating(self, res):
+		food_reviews = res.review_set.all()
+		if food_reviews.exists():
+			avg = food_reviews.aggregate(models.Avg('rating'))['rating__avg']
+			return f"{avg:.1f}"
+		return "0.0"
+
+	def get_reviews(self, res):
+		count = res.review_set.count()
+		if count >= 1000:
+			return f"{count / 1000:.1f}k"
+		return str(count)
+
+	def get_image(self, res):
+		if res.image:
+			return res.image.url
+		return None
+
+	def get_categories(self, res):
+		menus = Menu.objects.filter(restaurant=res)
+		categories = Category.objects.filter(
+			id__in=menus.values_list('category_id', flat=True).distinct())
+		return CategorySerializer(categories, many=True).data
+
+	def create(self, validated_data):
+		user_data = validated_data.pop('user')
+		user = User.objects.create_user(**user_data)
+		restaurant = Restaurant.objects.create(user=user, **validated_data)
+		return restaurant
 
 
 class CategorySerializer(serializers.ModelSerializer):
