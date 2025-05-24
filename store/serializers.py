@@ -40,12 +40,16 @@ class RestaurantSerializer(serializers.ModelSerializer):
 	reviews = serializers.SerializerMethodField()
 	image = serializers.SerializerMethodField()
 	categories = serializers.SerializerMethodField()
-	user = UserSerializer()
+	username = serializers.CharField(write_only=True)
+	password = serializers.CharField(write_only=True)
+	email = serializers.EmailField(write_only=True)
+	role = serializers.CharField(write_only=True)
+	avatar = serializers.ImageField(write_only=True, required=False)
 
 	class Meta:
 		model = Restaurant
 		fields = ['id', 'name', 'location', 'rating', 'reviews', 'image', 'price_per_km',
-				  'description', 'categories', 'user']
+				  'description', 'categories', 'username', 'password', 'email', 'role', 'avatar']
 
 	def get_rating(self, res):
 		food_reviews = res.review_set.all()
@@ -72,8 +76,23 @@ class RestaurantSerializer(serializers.ModelSerializer):
 		return CategorySerializer(categories, many=True).data
 
 	def create(self, validated_data):
-		user_data = validated_data.pop('user')
-		user = User.objects.create_user(**user_data)
+		username = validated_data.pop('username')
+		password = validated_data.pop('password')
+		email = validated_data.pop('email')
+		role = validated_data.pop('role')
+		avatar = validated_data.pop('avatar', None)
+
+		user = User.objects.create_user(
+			username=username,
+			password=password,
+			email=email,
+			role=role,
+		)
+
+		if avatar:
+			user.avatar = avatar
+			user.save()
+
 		restaurant = Restaurant.objects.create(user=user, **validated_data)
 		return restaurant
 
