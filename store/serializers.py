@@ -1,7 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 
-from .models import Restaurant, User, Review, Category, Food, Payment
+from .models import Restaurant, User, Review, Category, Food, Payment, Menu
 
 
 class RestaurantSerializer(serializers.ModelSerializer):
@@ -34,7 +34,9 @@ class RestaurantSerializer(serializers.ModelSerializer):
 		return None
 
 	def get_categories(self, res):
-		categories = res.menu.category_set.all()
+		menus = Menu.objects.filter(restaurant=res)
+		categories = Category.objects.filter(
+			id__in=menus.values_list('category_id', flat=True).distinct())
 		return CategorySerializer(categories, many=True).data
 
 	def create(self, validated_data):
