@@ -268,40 +268,40 @@ CSRF_TRUSTED_ORIGINS = [
 # 'CLIENT_ID': jyt7S9M6k8NssDHoNQNyLgbeFJfi5qnKElHMeJxp
 # 'CLIENT_SECRET': RT007jDkJEvDOMeWisC7Q03mTKe5YZIIe8BNfSVj9HyPoLaixMirYDPJ4VTl3bKlenZygkesFO8CDBIicRjLW2UHrLy6MANgjrZ3iRxJSNTMvq2rpzWvIFfnLwOj6CVk
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'simple': {
-            'format': '{levelname} {asctime} {message}',
-            'style': '{',
-        },
-    },
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'formatter': 'simple',
-        },
-    },
-    'loggers': {
-        'django': {
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': True,
-        },
-        'django.server': {  # Logger ghi log HTTP requests (giống như khi dùng runserver)
-            'handlers': ['console'],
-            'level': 'INFO',
-            'propagate': False,
-        },
-        'django.db.backends': {
-            'handlers': ['console'],
-            'level': 'WARNING',  # Ẩn log SQL chi tiết
-            'propagate': False,
-        },
-    },
-    'root': {
-        'handlers': ['console'],
-        'level': 'WARNING',  # Không cần log DEBUG toàn hệ thống
-    },
-}
+# LOGGING = {
+#     'version': 1,
+#     'disable_existing_loggers': False,
+#     'formatters': {
+#         'simple': {
+#             'format': '{levelname} {asctime} {message}',
+#             'style': '{',
+#         },
+#     },
+#     'handlers': {
+#         'console': {
+#             'class': 'logging.StreamHandler',
+#             'formatter': 'simple',
+#         },
+#     },
+#     'loggers': {
+#         'django': {
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': True,
+#         },
+#         'django.server': {  # Logger ghi log HTTP requests (giống như khi dùng runserver)
+#             'handlers': ['console'],
+#             'level': 'INFO',
+#             'propagate': False,
+#         },
+#         'django.db.backends': {
+#             'handlers': ['console'],
+#             'level': 'WARNING',  # Ẩn log SQL chi tiết
+#             'propagate': False,
+#         },
+#     },
+#     'root': {
+#         'handlers': ['console'],
+#         'level': 'WARNING',  # Không cần log DEBUG toàn hệ thống
+#     },
+# }

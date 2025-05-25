@@ -36,6 +36,8 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	def get_permissions(self):
 		if self.action in ["add_review", "like_restaurant"]:
 			return [permissions.IsAuthenticated()]
+		elif self.action == "update_foods":
+			return [perms.IsRestaurantOwner()]
 		return [permissions.AllowAny()]
 
 	@action(methods=['get'], url_path="foods", detail=True)
@@ -117,6 +119,15 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 
 		return Response(users)
 
+	@action(methods=['patch', 'put'], url_path="foods", detail=True)
+	def update_foods(self, request, pk):
+		restaurant = self.get_object()
+		serializer = serializers.RestaurantSerializer(restaurant, data=request.data, partial=True)
+		if serializer.is_valid():
+			serializer.save()
+			return Response(serializer.data, status=status.HTTP_200_OK)
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView):
 	queryset = User.objects.filter(is_active=True).all()
@@ -186,6 +197,11 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 	)
 	serializer_class = serializers.FoodSerializer
 	pagination_class = paginators.FoodPaginator
+
+	def get_permissions(self):
+		if self.action == 'update':
+			return [perms.IsRestaurantOwner()]
+		return [permissions.AllowAny()]
 
 	def get_queryset(self):
 		queryset = self.queryset

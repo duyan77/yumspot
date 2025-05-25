@@ -7,13 +7,12 @@ from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from dotenv import load_dotenv
 
-from yumspot import settings
-
 load_dotenv()
 
 # Sử dụng biến từ .env
 stripe.api_key = os.getenv("STRIPE_SECRET_KEY")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET")
+STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY")
 api_key = os.getenv("SENDINBLUE_API_KEY_1")
 key = os.getenv("SENDINBLUE_API_KEY_2")
 endpoint_secret = os.getenv("STRIPE_WEBHOOK_SECRET")
@@ -134,61 +133,65 @@ def create_checkout_session(request):
 
 @csrf_exempt
 def payment_sheet(request):
-	# Parse JSON từ body
-	data = json.loads(request.body)
-	cart_items = data.get('cart', [])
+	try:
+		# Parse JSON từ body
+		data = json.loads(request.body)
+		cart_items = data.get('cart', [])
 
-	print("📦 Dữ liệu nhận được:\n", json.dumps(data, indent=4, ensure_ascii=False))
+		print("📦 Dữ liệu nhận được:\n", json.dumps(data, indent=4, ensure_ascii=False))
 
-	if not cart_items:
-		return JsonResponse({'error': 'Giỏ hàng trống.'}, status=400)
+		if not cart_items:
+			return JsonResponse({'error': 'Giỏ hàng trống.'}, status=400)
 
-	# Tổng tiền của tất cả đơn hàng
-	total_amount = 0
-	order_ids = []
-	shipping_methods = []
+		# Tổng tiền của tất cả đơn hàng
+		total_amount = 0
+		order_ids = []
+		shipping_methods = []
 
-	for order in cart_items:
-		order_total = int(order.get('orderTotal', 0))
-		shipping_price = int(order.get('shipping', {}).get('price', 0))
-		total_amount += order_total + shipping_price
-		order_ids.append(order.get('orderID'))
-		shipping_methods.append(order.get('shipping', {}).get('method'))
+		for order in cart_items:
+			order_total = int(order.get('orderTotal', 0))
+			shipping_price = int(order.get('shipping', {}).get('price', 0))
+			total_amount += order_total + shipping_price
+			order_ids.append(order.get('orderID'))
+			shipping_methods.append(order.get('shipping', {}).get('method'))
 
-	# Lấy thông tin khách hàng từ đơn đầu tiên (nếu tất cả đơn đều chung khách)
-	customer_info = cart_items[0].get('customer', {})
+		# Lấy thông tin khách hàng từ đơn đầu tiên (nếu tất cả đơn đều chung khách)
+		customer_info = cart_items[0].get('customer', {})
 
-	# Tạo Stripe customer
-	customer = stripe.Customer.create(
-		name=customer_info.get('name'),
-		email=customer_info.get('email_phone'),
-		metadata={'address': customer_info.get('address')}
-	)
+		# Tạo Stripe customer
+		customer = stripe.Customer.create(
+			name=customer_info.get('name'),
+			email=customer_info.get('email_phone'),
+			metadata={'address': customer_info.get('address')}
+		)
 
-	# Tạo Ephemeral key
-	ephemeral_key = stripe.EphemeralKey.create(
-		customer=customer.id,
-		stripe_version='2025-04-30.basil',
-	)
+		# Tạo Ephemeral key
+		ephemeral_key = stripe.EphemeralKey.create(
+			customer=customer.id,
+			stripe_version='2025-04-30.basil',
+		)
 
-	# Tạo PaymentIntent với tổng số tiền
-	payment_intent = stripe.PaymentIntent.create(
-		amount=total_amount,
-		currency='vnd',
-		customer=customer.id,
-		payment_method_types=["card"],
-		metadata={
-			"order_ids": ",".join(order_ids),
-			"shipping_methods": ",".join(shipping_methods),
-			"email": customer_info.get('email_phone'),
-			"name": customer_info.get('name'),
-		}
-	)
+		# Tạo PaymentIntent với tổng số tiền
+		payment_intent = stripe.PaymentIntent.create(
+			amount=total_amount,
+			currency='vnd',
+			customer=customer.id,
+			payment_method_types=["card"],
+			metadata={
+				"order_ids": ",".join(order_ids),
+				"shipping_methods": ",".join(shipping_methods),
+				"email": customer_info.get('email_phone'),
+				"name": customer_info.get('name'),
+			}
+		)
 
-	# Trả về thông tin cho frontend
-	return JsonResponse({
-		'paymentIntent': payment_intent.client_secret,
-		'ephemeralKey': ephemeral_key.secret,
-		'customer': customer.id,
-		'publishableKey': settings.STRIPE_PUBLISHABLE_KEY,
-	})
+		# Trả về thông tin cho frontend
+		return JsonResponse({
+			'paymentIntent': payment_intent.client_secret,
+			'ephemeralKey': ephemeral_key.secret,
+			'customer': customer.id,
+			'publishableKey': STRIPE_PUBLISHABLE_KEY,
+		})
+
+	except json.JSONDecodeError:
+		return JsonResponse({'error': 'Invalid JSON data.'}, status=400)
