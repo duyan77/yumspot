@@ -179,6 +179,12 @@ class FoodSerializer(serializers.ModelSerializer):
 		return None
 
 
+class FoodCreateSerializer(serializers.ModelSerializer):
+	class Meta:
+		model = Food
+		fields = ['name', 'price', 'discount', 'image', 'description', 'menu', 'category']
+
+
 class ReviewSerializer(serializers.ModelSerializer):
 	username = serializers.SerializerMethodField()
 	image = serializers.SerializerMethodField()

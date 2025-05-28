@@ -6,6 +6,8 @@ class OwnerAuthenticated(permissions.IsAuthenticated):
 		return self.has_permission(request, view) and obj.user == request.user
 
 
-class IsRestaurantOwner(permissions.IsAuthenticated):
+# Kiểm tra role của người dùng là 'restaurant' và người dùng đã xác thực
+class IsRestaurantUser(permissions.IsAuthenticated):
 	def has_permission(self, request, view):
 		return super().has_permission(request, view) and request.user.role == 'restaurant'
+

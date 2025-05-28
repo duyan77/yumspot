@@ -10,7 +10,8 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 
 from store import serializers, paginators, perms
-from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant, Follow, Payment
+from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant, Follow, Payment, \
+	Menu
 from .paginators import ReviewPaginator
 from .serializers import RestaurantSerializer
 
@@ -36,8 +37,8 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	def get_permissions(self):
 		if self.action in ["add_review", "like_restaurant"]:
 			return [permissions.IsAuthenticated()]
-		elif self.action == "update_foods":
-			return [perms.IsRestaurantOwner()]
+		elif self.action in ["update_foods", "add_foods"]:
+			return [perms.IsRestaurantUser(), perms.OwnerAuthenticated()]
 		return [permissions.AllowAny()]
 
 	@action(methods=['get'], url_path="foods", detail=True)
@@ -57,6 +58,38 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 		# Nếu không có phân trang, trả về tất cả kết quả
 		serializer = serializers.FoodSerializer(foods, many=True)
 		return Response(serializer.data)
+
+	@action(methods=['post'], url_path="add-foods", detail=True)
+	def add_foods(self, request, pk):
+		restaurant = self.get_object()
+
+		# Lấy category id từ dữ liệu gửi lên
+		category_id = request.data.get("category")
+		if not category_id:
+			return Response({"detail": "Thiếu thông tin category."},
+							status=status.HTTP_400_BAD_REQUEST)
+
+		try:
+			category = Category.objects.get(pk=category_id)
+		except Category.DoesNotExist:
+			return Response({"detail": "Danh mục không tồn tại."},
+							status=status.HTTP_400_BAD_REQUEST)
+
+		# Lấy hoặc tạo Menu phù hợp với nhà hàng và danh mục
+		menu, _ = Menu.objects.get_or_create(restaurant=restaurant, category=category)
+
+		# Dùng serializer gốc nhưng inject menu và category rõ ràng
+		food_data = request.data.copy()
+		food_data["menu"] = menu.id  # gán ID menu đã lấy ở trên
+		food_data["category"] = category.id
+
+		serializer = serializers.FoodCreateSerializer(
+			data=food_data)  # dùng Serializer chuyên cho tạo
+		if serializer.is_valid():
+			food = serializer.save()
+			return Response(serializers.FoodSerializer(food).data, status=status.HTTP_201_CREATED)
+
+		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	@action(methods=['post'], url_path="add-review", detail=True)
 	def add_review(self, request, pk):
@@ -119,13 +152,23 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 
 		return Response(users)
 
-	@action(methods=['patch', 'put'], url_path="foods", detail=True)
-	def update_foods(self, request, pk):
+	@action(methods=['patch'], url_path="foods/(?P<food_id>\\d+)", detail=True,
+			permission_classes=[perms.IsRestaurantUser, perms.OwnerAuthenticated])
+	def update_food(self, request, pk=None, food_id=None):
 		restaurant = self.get_object()
-		serializer = serializers.RestaurantSerializer(restaurant, data=request.data, partial=True)
+
+		# Lấy món ăn cần cập nhật
+		try:
+			food = Food.objects.get(pk=food_id, menu__restaurant=restaurant)
+		except Food.DoesNotExist:
+			return Response({"detail": "Không tìm thấy món ăn thuộc nhà hàng này."},
+							status=status.HTTP_404_NOT_FOUND)
+
+		# Gửi dữ liệu cập nhật vào serializer
+		serializer = serializers.FoodSerializer(food, data=request.data, partial=True)
 		if serializer.is_valid():
 			serializer.save()
-			return Response(serializer.data, status=status.HTTP_200_OK)
+			return Response(serializer.data)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -162,6 +205,15 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView
 			return Response(serializers.UserSerializer(user).data, status=status.HTTP_200_OK)
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+	# action lấy nhà hàng của người dùng
+	@action(methods=['get'], url_path="current-user/restaurants", detail=False,
+			permission_classes=[perms.IsRestaurantUser])
+	def get_user_restaurants(self, request):
+		user = request.user
+		restaurants = Restaurant.objects.filter(user=user)
+		serializer = serializers.RestaurantSerializer(restaurants, many=True)
+		return Response(serializer.data, status=status.HTTP_200_OK)
+
 
 class CustomTokenView(TokenView):
 	def post(self, request, *args, **kwargs):
@@ -183,7 +235,7 @@ class CustomTokenView(TokenView):
 		return response
 
 
-class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView):
+class CategoryViewSet(viewsets.ViewSet, generics.ListAPIView, generics.UpdateAPIView):
 	queryset = Category.objects.filter(active=True)
 	serializer_class = serializers.CategorySerializer
 
@@ -200,7 +252,7 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 
 	def get_permissions(self):
 		if self.action == 'update':
-			return [perms.IsRestaurantOwner()]
+			return [perms.IsRestaurantUser()]
 		return [permissions.AllowAny()]
 
 	def get_queryset(self):
