@@ -34,11 +34,9 @@ def count_restaurants_per_owner():
 
 
 def get_stats_by_category(restaurant_id=None, quarter_number=None, month=None, year=None):
-	qs = OrderDetails.objects.filter(
-		order__payment__isnull=False
-	).annotate(
-		time=TruncMonth('order__payment__created_at'),
-		# dùng month hoặc quarter sẽ overwrite bên dưới
+	from django.db.models.functions import TruncMonth, TruncQuarter, TruncYear
+
+	qs = OrderDetails.objects.filter(order__payment__isnull=False).annotate(
 		category=F('food__category__name'),
 		restaurant=F('order__restaurant__name')
 	)
@@ -49,38 +47,25 @@ def get_stats_by_category(restaurant_id=None, quarter_number=None, month=None, y
 	if year:
 		qs = qs.filter(order__payment__created_at__year=year)
 
+	# Thống kê theo quý
 	if quarter_number:
-		if quarter_number == 1:
-			months = [1, 2, 3]
-		elif quarter_number == 2:
-			months = [4, 5, 6]
-		elif quarter_number == 3:
-			months = [7, 8, 9]
-		elif quarter_number == 4:
-			months = [10, 11, 12]
-		else:
-			raise ValueError("quarter_number phải nằm trong khoảng 1 đến 4.")
-
+		if quarter_number not in [1, 2, 3, 4]:
+			raise ValueError("quarter_number phải từ 1 đến 4.")
+		qs = qs.filter(order__payment__created_at__quarter=quarter_number)
 		qs = qs.annotate(time=TruncQuarter('order__payment__created_at'))
-		qs = qs.filter(order__payment__created_at__month__in=months)
 
-		return qs.values('time', 'restaurant', 'category').annotate(
-			total_revenue=Sum(F('quantity') * F('food__price')),
-			total_quantity=Sum('quantity')
-		).order_by('time')
-
-	if month:
+	# Thống kê theo tháng
+	elif month:
 		if not (1 <= month <= 12):
-			raise ValueError("month phải nằm trong khoảng 1 đến 12.")
+			raise ValueError("month phải từ 1 đến 12.")
 		qs = qs.filter(order__payment__created_at__month=month)
+		qs = qs.annotate(time=TruncMonth('order__payment__created_at'))
 
-		# time giữ là month
-		return qs.values('time', 'restaurant', 'category').annotate(
-			total_revenue=Sum(F('quantity') * F('food__price')),
-			total_quantity=Sum('quantity')
-		).order_by('time')
+	# Thống kê theo năm (mặc định)
+	else:
+		qs = qs.annotate(time=TruncYear('order__payment__created_at'))
 
-	# Trường hợp không truyền quarter hay month
+	# Gộp nhóm theo thời gian - nhà hàng - danh mục
 	return qs.values('time', 'restaurant', 'category').annotate(
 		total_revenue=Sum(F('quantity') * F('food__price')),
 		total_quantity=Sum('quantity')
@@ -125,6 +110,8 @@ def get_yearly_stats_by_restaurant(year=None):
 	).order_by('year')
 
 
+from django.db.models.functions import TruncMonth, TruncQuarter, TruncYear
+
 def get_food_stats(restaurant_id=None, year=None, quarter=None, month=None):
 	qs = OrderDetails.objects.filter(order__payment__isnull=False)
 
@@ -134,20 +121,26 @@ def get_food_stats(restaurant_id=None, year=None, quarter=None, month=None):
 	if year:
 		qs = qs.filter(order__payment__created_at__year=year)
 
+	# Thống kê theo quý
 	if quarter:
 		quarter = int(quarter)
-		start_month = (quarter - 1) * 3 + 1
-		end_month = start_month + 2
-		qs = qs.filter(order__payment__created_at__month__range=(start_month, end_month))
+		if quarter not in [1, 2, 3, 4]:
+			raise ValueError("quarter phải từ 1 đến 4.")
+		qs = qs.filter(order__payment__created_at__quarter=quarter)
 		qs = qs.annotate(time=TruncQuarter('order__payment__created_at'))
+
+	# Thống kê theo tháng
 	elif month:
 		if not (1 <= month <= 12):
-			raise ValueError("month phải nằm trong khoảng 1 đến 12.")
+			raise ValueError("month phải từ 1 đến 12.")
 		qs = qs.filter(order__payment__created_at__month=month)
 		qs = qs.annotate(time=TruncMonth('order__payment__created_at'))
-	else:
-		qs = qs.annotate(time=TruncMonth('order__payment__created_at'))
 
+	# Thống kê theo năm (hoặc toàn bộ)
+	else:
+		qs = qs.annotate(time=TruncYear('order__payment__created_at'))
+
+	# Thống kê theo món ăn
 	qs = qs.annotate(
 		name=F('food__name')
 	).values('time', 'name').annotate(
