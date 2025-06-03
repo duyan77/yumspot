@@ -1,7 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 
-from .models import Restaurant, User, Review, Category, Food, Payment, Menu, Order
+from .models import Restaurant, User, Review, Category, Food, Payment, Menu, Order, OrderDetails
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -211,14 +211,37 @@ class PaymentSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 
+class FoodInOrderSerializer(serializers.ModelSerializer):
+	food_name = serializers.CharField(source='food.name', read_only=True)
+	food_image = serializers.SerializerMethodField()
+	price = serializers.SerializerMethodField()  # Giá lấy từ food.price
+
+	class Meta:
+		model = OrderDetails
+		fields = ['food_name', 'food_image', 'quantity', 'price']
+
+	def get_food_image(self, obj):
+		if obj.food.image:
+			return obj.food.image.url
+		return None
+
+	def get_price(self, obj):
+		return obj.food.price  # Lấy giá từ món ăn
+
+
 class OrderSerializer(serializers.ModelSerializer):
 	user = serializers.SerializerMethodField()
+	foods = serializers.SerializerMethodField()
 
 	def get_user(self, order):
 		if order.user:
 			return order.user.id
 		return None
 
+	def get_foods(self, order):
+		order_details = order.orderdetails_set.all()
+		return FoodInOrderSerializer(order_details, many=True).data
+
 	class Meta:
 		model = Order
-		fields = ['id', 'user', 'restaurant', 'created_at', 'updated_at']
+		fields = ['id', 'user', 'restaurant', 'created_at', 'updated_at', 'foods']
