@@ -110,8 +110,6 @@ def get_yearly_stats_by_restaurant(year=None):
 	).order_by('year')
 
 
-from django.db.models.functions import TruncMonth, TruncQuarter, TruncYear
-
 def get_food_stats(restaurant_id=None, year=None, quarter=None, month=None):
 	qs = OrderDetails.objects.filter(order__payment__isnull=False)
 
