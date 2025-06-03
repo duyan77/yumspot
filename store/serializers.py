@@ -144,7 +144,8 @@ class FoodSerializer(serializers.ModelSerializer):
 		model = Food
 		fields = [
 			'id', 'name', 'rating', 'reviews', 'oldPrice', 'newPrice',
-			'discount', 'image', 'restaurant', 'category', 'description'
+			'discount', 'image', 'restaurant', 'category', 'description',
+			'created_at'
 		]
 
 	def get_rating(self, food):

@@ -1,3 +1,5 @@
+from tkinter.font import names
+
 from django.db.models import Count, Sum, F
 from django.db.models.functions import TruncQuarter, TruncYear
 
