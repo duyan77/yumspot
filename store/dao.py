@@ -121,8 +121,8 @@ def get_food_stats(restaurant_id=None, year=None, quarter=None):
 		qs = qs.filter(order__payment__created_at__month__range=(start_month, end_month))
 
 	qs = qs.annotate(
-		food_name=F('food__name')
-	).values('food_name').annotate(
+		name=F('food__name')
+	).values('name').annotate(
 		total_revenue=Sum(F('quantity') * F('food__price')),
 		total_quantity=Sum('quantity')
 	).order_by('-total_revenue')
