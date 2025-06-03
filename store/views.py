@@ -1,5 +1,7 @@
 import json
+import os
 
+import requests
 from django.db.models import ExpressionWrapper, F, DecimalField
 from django.http import JsonResponse
 from oauth2_provider.models import AccessToken
@@ -16,6 +18,40 @@ from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant
 	Menu, Order
 from .paginators import ReviewPaginator
 from .serializers import RestaurantSerializer
+
+
+def send_food_notification_email(api_key, to_email, to_name, food_name, restaurant_name,
+								 restaurant_id):
+	url = "https://api.brevo.com/v3/smtp/email"
+	headers = {
+		"accept": "application/json",
+		"api-key": api_key,
+		"content-type": "application/json"
+	}
+	data = {
+		"sender": {
+			"name": "Hệ Thống Nhà Hàng",
+			"email": "nguyentan14kute@gmail.com"
+		},
+		"to": [{"email": to_email, "name": to_name}],
+		"subject": f"🍽️ Món ăn mới từ {restaurant_name}!",
+		"htmlContent": f"""
+			<html>
+				<body>
+					<p>Chào {to_name},</p>
+					<p>Nhà hàng <strong>{restaurant_name}</strong> mà bạn theo dõi vừa thêm món mới:</p>
+					<p><strong>{food_name}</strong></p>
+					<p><a href="http://your-frontend.com/restaurants/{restaurant_id}">Xem chi tiết nhà hàng</a></p>
+					<p>Chúc bạn ngon miệng!</p>
+				</body>
+			</html>
+		"""
+	}
+	response = requests.post(url, headers=headers, json=data)
+	if response.status_code == 201:
+		print("✅ Gửi email thành công.")
+	else:
+		print(f"❌ Gửi email thất bại: {response.status_code} - {response.text}")
 
 
 class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateAPIView,
@@ -39,7 +75,7 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	def get_permissions(self):
 		if self.action in ["add_review", "like_restaurant"]:
 			return [permissions.IsAuthenticated()]
-		elif self.action in ["update_foods", "add_foods"]:
+		elif self.action in ["update_foods", "add_foods", "add_categories"]:
 			return [perms.IsRestaurantUser(), perms.OwnerAuthenticated()]
 		return [permissions.AllowAny()]
 
@@ -65,7 +101,6 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	def add_foods(self, request, pk):
 		restaurant = self.get_object()
 
-		# Lấy category id từ dữ liệu gửi lên
 		category_id = request.data.get("category")
 		if not category_id:
 			return Response({"detail": "Thiếu thông tin category."},
@@ -77,18 +112,28 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 			return Response({"detail": "Danh mục không tồn tại."},
 							status=status.HTTP_400_BAD_REQUEST)
 
-		# Lấy hoặc tạo Menu phù hợp với nhà hàng và danh mục
 		menu, _ = Menu.objects.get_or_create(restaurant=restaurant, category=category)
 
-		# Dùng serializer gốc nhưng inject menu và category rõ ràng
 		food_data = request.data.copy()
-		food_data["menu"] = menu.id  # gán ID menu đã lấy ở trên
+		food_data["menu"] = menu.id
 		food_data["category"] = category.id
 
-		serializer = serializers.FoodCreateSerializer(
-			data=food_data)  # dùng Serializer chuyên cho tạo
+		serializer = serializers.FoodCreateSerializer(data=food_data)
 		if serializer.is_valid():
 			food = serializer.save()
+
+			# Gửi mail cho người theo dõi nhà hàng
+			followers = User.objects.filter(follow__restaurant=restaurant)
+			for user in followers:
+				send_food_notification_email(
+					api_key=os.getenv("SENDINBLUE_API_KEY_1"),
+					to_email=user.email,
+					to_name=user.get_full_name() or user.username,
+					food_name=food.name,
+					restaurant_name=restaurant.name,
+					restaurant_id=restaurant.id,
+				)
+
 			return Response(serializers.FoodSerializer(food).data, status=status.HTTP_201_CREATED)
 
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -96,14 +141,22 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	@action(methods=['post'], url_path="add-categories", detail=True)
 	def add_categories(self, request, pk):
 		restaurant = self.get_object()
-		menu = request.data.get("menu")
-		category = request.data.get("category")
-		if not menu or not category:
+		menu_id = request.data.get("menu")
+		category_id = request.data.get("category")
+
+		if not menu_id or not category_id:
 			return Response({"detail": "Thiếu thông tin menu hoặc category."},
 							status=status.HTTP_400_BAD_REQUEST)
-		menu_obj = Menu.objects.get_or_create(pk=menu, restaurant=restaurant)
-		category_obj = Category.objects.get(pk=category)
+
+		try:
+			menu_obj, _ = Menu.objects.get_or_create(id=menu_id, restaurant=restaurant)
+			category_obj = Category.objects.get(id=category_id)
+		except Category.DoesNotExist:
+			return Response({"detail": "Danh mục không tồn tại."}, status=status.HTTP_404_NOT_FOUND)
+
 		menu_obj.category = category_obj
+		menu_obj.save()
+
 		return Response(serializers.CategorySerializer(category_obj).data,
 						status=status.HTTP_201_CREATED)
 
@@ -406,6 +459,7 @@ class PaymentViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIV
 class StatsViewSet(GenericViewSet):
 	queryset = []
 	serializer_class = None
+	permission_classes = [perms.IsRestaurantUser, perms.OwnerAuthenticated]
 
 	@action(detail=True, methods=["get"], url_path="stats-category")
 	def stats_category(self, request, pk=None):
