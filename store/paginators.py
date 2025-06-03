@@ -11,3 +11,7 @@ class FoodPaginator(PageNumberPagination):
 
 class ReviewPaginator(PageNumberPagination):
 	page_size = 10
+
+
+class OrderPaginator(PageNumberPagination):
+	page_size = 10

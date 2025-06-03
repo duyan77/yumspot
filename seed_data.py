@@ -1,25 +1,63 @@
-from datetime import timedelta
-from django.utils.timezone import now
+import os
+import django
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "yumspot.settings")  # Đổi nếu tên project khác
+django.setup()
+
 import random
-from store.models import User, Restaurant, Order, OrderDetails, Food, Payment
+from datetime import datetime
+from django.utils import timezone
+from store.models import User, Restaurant, Food, Order, OrderDetails, Payment
 
-# Giả định đã có ít nhất 1 user, 1 restaurant và vài món ăn
-user = User.objects.first()
-restaurant = Restaurant.objects.first()
-foods = list(Food.objects.all()[:3])  # lấy 3 món ăn đầu tiên
 
-for i in range(12):  # tạo 12 đơn hàng, mỗi cái cách nhau 1 tháng
-    created_at = now() - timedelta(days=30 * (11 - i))
-    order = Order.objects.create(user=user, restaurant=restaurant, created_at=created_at)
+def create_random_orders():
+    users = list(User.objects.all())
+    restaurants = list(Restaurant.objects.all())
 
-    # Thêm 1–3 món ăn cho mỗi đơn
-    for _ in range(random.randint(1, 3)):
-        food = random.choice(foods)
-        quantity = random.randint(1, 5)
-        OrderDetails.objects.create(order=order, food=food, quantity=quantity)
+    if not users or not restaurants:
+        print("Thiếu dữ liệu User hoặc Restaurant.")
+        return
 
-    # Tổng tiền thanh toán (giả định): đơn giá * số lượng * hệ số
-    total_quantity = sum(od.quantity for od in order.orderdetails_set.all())
-    amount = total_quantity * random.randint(10, 30)  # mỗi món 10–30k
+    years = [2023, 2024, 2025]
+    months = list(range(1, 13))  # Tháng 1–12
 
-    Payment.objects.create(order=order, amount=amount, status='success', created_at=created_at)
+    for restaurant in restaurants:
+        # Lọc món ăn thông qua menu liên kết với restaurant
+        foods = list(Food.objects.filter(menu__restaurant=restaurant))
+        if not foods:
+            continue
+
+        for year in years:
+            for month in random.sample(months, k=4):  # 4 tháng ngẫu nhiên mỗi năm
+                for _ in range(random.randint(3, 6)):  # 3–6 đơn mỗi tháng
+                    user = random.choice(users)
+                    order = Order.objects.create(user=user, restaurant=restaurant)
+
+                    total = 0
+                    for _ in range(random.randint(1, 4)):  # 1–4 món mỗi đơn
+                        food = random.choice(foods)
+                        quantity = random.randint(1, 5)
+                        OrderDetails.objects.create(order=order, food=food, quantity=quantity)
+                        total += float(food.price) * quantity
+
+                    created_at = timezone.make_aware(datetime(
+                        year, month, random.randint(1, 28),
+                        random.randint(8, 20), random.randint(0, 59)
+                    ))
+
+                    payment = Payment.objects.create(
+                        order=order,
+                        amount=total,
+                        status='PAID',
+                    )
+
+                    Payment.objects.filter(pk=payment.pk).update(
+                        created_at=created_at,
+                        updated_at=created_at
+                    )
+
+    print("Tạo dữ liệu mẫu đơn hàng thành công cho nhiều nhà hàng.")
+
+
+if __name__ == "__main__":
+    create_random_orders()

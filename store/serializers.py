@@ -1,7 +1,7 @@
 from django.db import models
 from rest_framework import serializers
 
-from .models import Restaurant, User, Review, Category, Food, Payment, Menu
+from .models import Restaurant, User, Review, Category, Food, Payment, Menu, Order
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -210,3 +210,15 @@ class PaymentSerializer(serializers.ModelSerializer):
 		model = Payment
 		fields = '__all__'
 
+
+class OrderSerializer(serializers.ModelSerializer):
+	user = serializers.SerializerMethodField()
+
+	def get_user(self, order):
+		if order.user:
+			return order.user.id
+		return None
+
+	class Meta:
+		model = Order
+		fields = ['id', 'user', 'restaurant', 'created_at', 'updated_at']
