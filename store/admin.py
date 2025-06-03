@@ -4,8 +4,10 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
 from django.db import models
+from django.db.models import Sum, F
+from django.db.models.functions import ExtractQuarter, TruncMonth, TruncQuarter, TruncYear
 from django.template.response import TemplateResponse
-from django.urls import path
+from django.urls import path, reverse
 from django.utils.timezone import now, timedelta, localtime
 from multi_captcha_admin.admin import MultiCaptchaAdminAuthenticationForm
 from unfold.admin import ModelAdmin
@@ -14,7 +16,7 @@ from unfold.forms import AdminPasswordChangeForm, UserCreationForm, UserChangeFo
 from unfold.sites import UnfoldAdminSite
 
 from store import dao
-from .models import User, Restaurant, Food, Category, Menu
+from .models import User, Restaurant, Food, Category, Menu, OrderDetails, Order, Payment
 
 admin.site.unregister(Group)
 
@@ -182,6 +184,126 @@ def dashboard_callback(request, context):
     Callback to prepare custom variables for index template which is used as dashboard
     template. It can be overridden in application by creating custom admin/index.html.
     """
+
+	def build_filter_item(req, label, value):
+		query_dict = req.GET.copy()
+		query_dict['filter'] = value
+		return {
+			'label': label,
+			'url': f"{reverse('admin:index')}?{query_dict.urlencode()}",
+			'active': req.GET.get('filter', 'month') == value,
+		}
+
+	filter_options = [
+		build_filter_item(request, "Theo tháng", "month"),
+		build_filter_item(request, "Theo quý", "quarter"),
+		build_filter_item(request, "Theo năm", "year"),
+	]
+
+	filter_type = request.GET.get('filter', 'month')
+	today = now()
+
+	labels = []
+	revenues = []
+	product_counts = []
+
+	# Lấy orders phù hợp (filter theo năm nếu cần)
+	orders_qs = Order.objects.all()
+	if filter_type in ['month', 'quarter']:
+		orders_qs = orders_qs.filter(created_at__year=today.year)
+
+	# Truy vấn tổng doanh thu theo khoảng thời gian
+	if filter_type == 'month':
+		payments_qs = Payment.objects.filter(
+			order__in=orders_qs,
+			status='success'
+		).annotate(period=TruncMonth('order__created_at')).values('period').annotate(
+			total_revenue=Sum('amount')
+		).order_by('period')
+
+		orderdetails_qs = OrderDetails.objects.filter(
+			order__in=orders_qs
+		).annotate(period=TruncMonth('order__created_at')).values('period').annotate(
+			total_products=Sum('quantity')
+		).order_by('period')
+
+		for pay_entry in payments_qs:
+			labels.append(pay_entry['period'].strftime('%B'))
+			revenues.append(pay_entry['total_revenue'])
+
+		for od_entry in orderdetails_qs:
+			product_counts.append(od_entry['total_products'])
+
+	elif filter_type == 'quarter':
+		payments_qs = Payment.objects.filter(
+			order__in=orders_qs,
+			status='success'
+		).annotate(period=TruncQuarter('order__created_at')).values('period').annotate(
+			total_revenue=Sum('amount')
+		).order_by('period')
+
+		orderdetails_qs = OrderDetails.objects.filter(
+			order__in=orders_qs
+		).annotate(period=TruncQuarter('order__created_at')).values('period').annotate(
+			total_products=Sum('quantity')
+		).order_by('period')
+
+		for pay_entry in payments_qs:
+			quarter = (pay_entry['period'].month - 1) // 3 + 1
+			labels.append(f"Q{quarter} {pay_entry['period'].year}")
+			revenues.append(pay_entry['total_revenue'])
+
+		for od_entry in orderdetails_qs:
+			product_counts.append(od_entry['total_products'])
+
+	elif filter_type == 'year':
+		payments_qs = Payment.objects.filter(
+			order__in=orders_qs,
+			status='success'
+		).annotate(period=TruncYear('order__created_at')).values('period').annotate(
+			total_revenue=Sum('amount')
+		).order_by('period')
+
+		orderdetails_qs = OrderDetails.objects.filter(
+			order__in=orders_qs
+		).annotate(period=TruncYear('order__created_at')).values('period').annotate(
+			total_products=Sum('quantity')
+		).order_by('period')
+
+		for pay_entry in payments_qs:
+			labels.append(str(pay_entry['period'].year))
+			revenues.append(pay_entry['total_revenue'])
+
+		for od_entry in orderdetails_qs:
+			product_counts.append(od_entry['total_products'])
+
+	# Nếu số lượng sản phẩm nhỏ hơn labels thì pad bằng 0 (tránh lỗi)
+	while len(product_counts) < len(labels):
+		product_counts.append(0)
+
+	# Chuẩn bị dữ liệu biểu đồ như trước
+	revenue_chart_data = {
+		'labels': labels,
+		'datasets': [{
+			'label': 'Doanh thu',
+			'data': revenues,
+			'borderColor': 'rgb(34,197,94)',
+			'backgroundColor': 'rgba(34,197,94,0.2)',
+			'fill': True,
+		}]
+	}
+
+	products_chart_data = {
+		'labels': labels,
+		'datasets': [{
+			'label': 'Tổng số sản phẩm bán',
+			'data': product_counts,
+			'borderColor': 'rgb(59,130,246)',
+			'backgroundColor': 'rgba(59,130,246,0.2)',
+			'fill': True,
+		}]
+	}
+
 	days_range = 15
 	labels = []
 	user_counts = []
@@ -231,9 +353,57 @@ def dashboard_callback(request, context):
 
 	stats = dao.count_restaurants_per_owner()
 
+	# test thử
+	current_year = now().year
+
+	# Dữ liệu doanh thu theo quý
+	quarterly_revenue = (
+		OrderDetails.objects
+		.filter(order__created_at__year=current_year)
+		.annotate(quarter=ExtractQuarter('order__created_at'))
+		.values('quarter')
+		.annotate(revenue=Sum(F('quantity') * F('food__price')))
+		.order_by('quarter')
+	)
+
+	# Chuẩn hoá dữ liệu ra dạng list để đưa vào Chart.js
+	labels = [f"Q{q}" for q in range(1, 5)]
+	revenue_data = [0, 0, 0, 0]
+
+	for item in quarterly_revenue:
+		q = item['quarter']
+		revenue = item['revenue'] or 0
+		revenue_data[q - 1] = float(revenue)
+
+	quarterly_revenue_chart = {
+		"labels": labels,
+		"datasets": [
+			{
+				"label": f"Doanh thu năm {current_year}",
+				"data": revenue_data,
+				"borderColor": "rgba(75, 192, 192, 1)",
+				"backgroundColor": "rgba(75, 192, 192, 0.2)",
+				"fill": True,
+				"tension": 0.4,
+			}
+		]
+	}
+
+	options = [
+		{'value': 'month', 'label': 'Theo tháng'},
+		{'value': 'quarter', 'label': 'Theo quý'},
+		{'value': 'year', 'label': 'Theo năm'},
+	]
+
 	# Send data to dashboard
 	context.update(
 		{
+			'revenueChartData': json.dumps(revenue_chart_data, default=str),
+
+			'productsChartData': json.dumps(products_chart_data),
+
+			"filters": filter_options,
+
 			"kpis": [
 				{
 					"title": "Total Active Users (Last 7 days)",
@@ -300,6 +470,7 @@ def dashboard_callback(request, context):
 				]
 			},
 
+			"quarterlyRevenueChartData": json.dumps(quarterly_revenue_chart),
 		}
 	)
 	return context

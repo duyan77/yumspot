@@ -73,6 +73,9 @@ class Menu(BaseModel):
 	restaurant = models.ForeignKey(Restaurant, on_delete=models.CASCADE)
 	category = models.ForeignKey(Category, on_delete=models.CASCADE)
 
+	class Meta:
+		unique_together = ('restaurant', 'category')
+
 	def __str__(self):
 		return f"{self.restaurant.name} - {self.category.name}"
 
@@ -138,8 +141,15 @@ class Payment(BaseModel):
 
 
 class Delivery(BaseModel):
-	order = models.ForeignKey(Order, on_delete=models.CASCADE)
-	status = models.CharField(max_length=50)
-	delivery_date = models.DateTimeField()
+	order = models.OneToOneField(Order, on_delete=models.CASCADE)
 
-# đánh giá res, food
+	STATUS_CHOICES = [
+		('pending', 'Chờ xác nhận'),
+		('preparing', 'Đang chuẩn bị'),
+		('delivering', 'Đang giao'),
+		('delivered', 'Đã giao'),
+		('canceled', 'Đã hủy'),
+	]
+
+	status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+	delivery_date = models.DateTimeField(null=True, blank=True)

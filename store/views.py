@@ -8,8 +8,10 @@ from rest_framework import status
 from rest_framework import viewsets, generics, parsers, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.viewsets import GenericViewSet
 
 from store import serializers, paginators, perms
+from .dao import get_quarterly_stats_by_category, get_yearly_stats_by_food, get_food_stats
 from .models import Restaurant, User, Category, Food, Review, UserLikeRestaurant, Follow, Payment, \
 	Menu
 from .paginators import ReviewPaginator
@@ -90,6 +92,20 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 			return Response(serializers.FoodSerializer(food).data, status=status.HTTP_201_CREATED)
 
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+	@action(methods=['post'], url_path="add-categories", detail=True)
+	def add_categories(self, request, pk):
+		restaurant = self.get_object()
+		menu = request.data.get("menu")
+		category = request.data.get("category")
+		if not menu or not category:
+			return Response({"detail": "Thiếu thông tin menu hoặc category."},
+							status=status.HTTP_400_BAD_REQUEST)
+		menu_obj = Menu.objects.get_or_create(pk=menu, restaurant=restaurant)
+		category_obj = Category.objects.get(pk=category)
+		menu_obj.category = category_obj
+		return Response(serializers.CategorySerializer(category_obj).data,
+						status=status.HTTP_201_CREATED)
 
 	@action(methods=['post'], url_path="add-review", detail=True)
 	def add_review(self, request, pk):
@@ -206,8 +222,7 @@ class UserViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIView
 		return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 	# action lấy nhà hàng của người dùng
-	@action(methods=['get'], url_path="current-user/restaurants", detail=False,
-			permission_classes=[perms.IsRestaurantUser])
+	@action(methods=['get'], url_path="current-user/restaurants", detail=False)
 	def get_user_restaurants(self, request):
 		user = request.user
 		restaurants = Restaurant.objects.filter(user=user)
@@ -347,6 +362,7 @@ class FoodViewSet(viewsets.ViewSet, generics.ListAPIView):
 		return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+# xong nho bỏ ModelsViewSet
 class ReviewViewSet(viewsets.ModelViewSet):
 	queryset = Review.objects.select_related('user').filter(active=True).order_by('-created_at')
 	serializer_class = serializers.ReviewSerializer
@@ -370,3 +386,69 @@ class PaymentViewSet(viewsets.ViewSet, generics.CreateAPIView, generics.ListAPIV
 	def create(self, request):
 		# Xử lý logic thanh toán tại đây
 		pass
+
+
+class StatsViewSet(GenericViewSet):
+	queryset = []
+	serializer_class = None
+
+	@action(detail=True, methods=["get"], url_path="stats-category")
+	def stats_category(self, request, pk=None):
+		try:
+			quarter = request.query_params.get("quarter")
+			year = request.query_params.get("year")
+
+			# Ép kiểu và kiểm tra tham số
+			quarter = int(quarter) if quarter else None
+			year = int(year) if year else None
+
+			if quarter and (quarter < 1 or quarter > 4):
+				return Response({"detail": "quarter phải trong khoảng 1-4."},
+								status=status.HTTP_400_BAD_REQUEST)
+
+			data = get_quarterly_stats_by_category(
+				restaurant_id=pk,
+				quarter_number=quarter,
+				year=year
+			)
+			return Response(data)
+
+		except ValueError:
+			return Response({"detail": "Tham số quarter và year phải là số nguyên."},
+							status=status.HTTP_400_BAD_REQUEST)
+
+	@action(detail=True, methods=["get"], url_path="yearly-food")
+	def yearly_food(self, request, pk=None):
+		try:
+			year = request.query_params.get("year")
+			year = int(year) if year else None
+
+			data = get_yearly_stats_by_food(restaurant_id=pk, year=year)
+			return Response(data)
+		except ValueError:
+			return Response({"detail": "Tham số year phải là số nguyên."},
+							status=status.HTTP_400_BAD_REQUEST)
+
+	@action(detail=True, methods=["get"], url_path="stats-food")
+	def stats_food(self, request, pk=None):
+		try:
+			quarter = request.query_params.get("quarter")
+			year = request.query_params.get("year")
+
+			quarter = int(quarter) if quarter else None
+			year = int(year) if year else None
+
+			if quarter and (quarter < 1 or quarter > 4):
+				return Response({"detail": "quarter phải trong khoảng 1-4."},
+								status=status.HTTP_400_BAD_REQUEST)
+
+			data = get_food_stats(
+				restaurant_id=pk,
+				quarter=quarter,
+				year=year
+			)
+			return Response(data)
+
+		except ValueError:
+			return Response({"detail": "Tham số quarter và year phải là số nguyên."},
+							status=status.HTTP_400_BAD_REQUEST)

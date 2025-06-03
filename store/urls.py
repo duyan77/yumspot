@@ -11,6 +11,7 @@ router.register(r'foods', views.FoodViewSet, basename='foods')
 router.register(r'reviews', views.ReviewViewSet, basename='reviews')
 router.register(r'payments', views.PaymentViewSet, basename='payments')
 
+router.register(r'stats', views.StatsViewSet, basename='stats')
 urlpatterns = [
 	path("", include(router.urls)),
 ]
