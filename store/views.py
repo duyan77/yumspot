@@ -142,22 +142,25 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	def add_categories(self, request, pk):
 		restaurant = self.get_object()
 		menu_id = request.data.get("menu")
-		category_id = request.data.get("category")
+		category_name = request.data.get("name")  # Tên category mới tạo
 
-		if not menu_id or not category_id:
-			return Response({"detail": "Thiếu thông tin menu hoặc category."},
+		if not menu_id or not category_name:
+			return Response({"detail": "Thiếu thông tin menu hoặc tên danh mục."},
 							status=status.HTTP_400_BAD_REQUEST)
 
 		try:
-			menu_obj, _ = Menu.objects.get_or_create(id=menu_id, restaurant=restaurant)
-			category_obj = Category.objects.get(id=category_id)
-		except Category.DoesNotExist:
-			return Response({"detail": "Danh mục không tồn tại."}, status=status.HTTP_404_NOT_FOUND)
+			menu_obj = Menu.objects.get(pk=menu_id, restaurant=restaurant)
+		except Menu.DoesNotExist:
+			return Response({"detail": "Menu không tồn tại."}, status=status.HTTP_404_NOT_FOUND)
 
-		menu_obj.category = category_obj
+		# Tạo Category mới
+		category = Category.objects.create(name=category_name)
+
+		# Gán Category vào Menu
+		menu_obj.category = category
 		menu_obj.save()
 
-		return Response(serializers.CategorySerializer(category_obj).data,
+		return Response(serializers.CategorySerializer(category).data,
 						status=status.HTTP_201_CREATED)
 
 	@action(methods=['post'], url_path="add-review", detail=True)
