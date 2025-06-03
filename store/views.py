@@ -140,28 +140,31 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 
 	@action(methods=['post'], url_path="add-categories", detail=True)
 	def add_categories(self, request, pk):
-		restaurant = self.get_object()
-		menu_id = request.data.get("menu")
-		category_name = request.data.get("name")  # Tên category mới tạo
+		restaurant = self.get_object()  # Lấy nhà hàng từ URL (pk)
+		category_data = request.data.get("category")
 
-		if not menu_id or not category_name:
-			return Response({"detail": "Thiếu thông tin menu hoặc tên danh mục."},
+		if not category_data:
+			return Response({"detail": "Thiếu thông tin category."},
 							status=status.HTTP_400_BAD_REQUEST)
 
-		try:
-			menu_obj = Menu.objects.get(pk=menu_id, restaurant=restaurant)
-		except Menu.DoesNotExist:
-			return Response({"detail": "Menu không tồn tại."}, status=status.HTTP_404_NOT_FOUND)
+		# Tạo category mới
+		serializer = serializers.CategorySerializer(data=category_data)
+		if serializer.is_valid():
+			category = serializer.save()
+		else:
+			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-		# Tạo Category mới
-		category = Category.objects.create(name=category_name)
+		# Lấy hoặc tạo menu với restaurant và category vừa tạo
+		menu, created = Menu.objects.get_or_create(restaurant=restaurant, category=category)
 
-		# Gán Category vào Menu
-		menu_obj.category = category
-		menu_obj.save()
-
-		return Response(serializers.CategorySerializer(category).data,
-						status=status.HTTP_201_CREATED)
+		return Response({
+			"category": serializers.CategorySerializer(category).data,
+			"menu": {
+				"id": menu.id,
+				"restaurant": menu.restaurant.id,
+				"category": menu.category.id,
+			}
+		}, status=status.HTTP_201_CREATED)
 
 	@action(methods=['post'], url_path="add-review", detail=True)
 	def add_review(self, request, pk):
