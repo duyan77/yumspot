@@ -141,7 +141,7 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	@action(methods=['post'], url_path="add-categories", detail=True)
 	def add_categories(self, request, pk):
 		restaurant = self.get_object()  # Lấy nhà hàng từ URL (pk)
-		category_data = request.data.get("category")
+		category_data = request.data.get("name")
 
 		if not category_data:
 			return Response({"detail": "Thiếu thông tin category."},
