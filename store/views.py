@@ -141,21 +141,20 @@ class RestaurantViewSet(viewsets.ViewSet, generics.ListAPIView, generics.CreateA
 	@action(methods=['post'], url_path="add-categories", detail=True)
 	def add_categories(self, request, pk):
 		restaurant = self.get_object()  # Lấy nhà hàng từ URL (pk)
-		category_data = request.data.get("name")
 
-		if not category_data:
+		if "name" not in request.data:
 			return Response({"detail": "Thiếu thông tin category."},
 							status=status.HTTP_400_BAD_REQUEST)
 
 		# Tạo category mới
-		serializer = serializers.CategorySerializer(data=category_data)
+		serializer = serializers.CategorySerializer(data=request.data)
 		if serializer.is_valid():
 			category = serializer.save()
 		else:
 			return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
-		# Lấy hoặc tạo menu với restaurant và category vừa tạo
-		menu, created = Menu.objects.get_or_create(restaurant=restaurant, category=category)
+		# Lấy hoặc tạo menu
+		menu, _ = Menu.objects.get_or_create(restaurant=restaurant, category=category)
 
 		return Response({
 			"category": serializers.CategorySerializer(category).data,
